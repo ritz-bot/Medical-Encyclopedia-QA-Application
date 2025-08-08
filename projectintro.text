@@ -155,3 +155,54 @@ The speaker hopes the viewer understands the main points, enjoys the project, le
 #### 11. Next Steps
 - Wait for all library installations to complete successfully.
 - Once done, proceed to the next video for further project development (e.g., PDF parsing, components implementation).
+
+9.107
+
+### Configuration Code Setup for Medical RAG Chatbot
+
+#### 1. Update .env File
+- Navigate to the `.env` file in the root directory.
+- Change the entry from "HUGGINGFACE_API_TOKEN" to "HUGGINGFACE_HUB_API_TOKEN" (ensure the key is updated to match this exact name).
+- Save the file.
+- You can close the file after saving.
+
+#### 2. Set Up config Directory as a Package
+- Go to the `app` directory.
+- Inside `app`, navigate to the `config` directory.
+- Create a file named `__init__.py` inside `config` to treat it as a Python package.
+- After creating `__init__.py`, open the terminal (ensure virtual environment is activated).
+- Run the command: `pip install -e .` to update the packages, as a new `__init__.py` file has been added.
+- Note: Every time you create a new `__init__.py` file or add a new library to the project, run `pip install -e .` to keep packages up to date.
+
+#### 3. Create config.py File
+- Inside the `config` directory, create a new file named `config.py`.
+- This file will contain all project configurations.
+
+#### 4. Write Configurations in config.py
+- Import the `os` library at the top: `import os`.
+- Fetch the Hugging Face token from the `.env` file:
+  - `HF_TOKEN = os.environ.get('HF_TOKEN')` (use the exact name specified in your `.env` file, e.g., 'HF_TOKEN').
+  - This stores the token in the `HF_TOKEN` variable.
+- Define additional configuration variables:
+  - Hugging Face repo ID (for the LLM model).
+  - DB FAISS path (path for the vector store, to be created later).
+  - Data path (path to input data, i.e., the PDF).
+  - Chunk size: Set to 500 (related to LLM text processing).
+  - Chunk overlap: Set to 50 (related to LLM text processing).
+- Set the data path:
+  - `DATA_PATH = 'data/'` (points to the `data` directory in the root where the PDF is stored; any files in `data` will be fetched as input).
+- Set the DB FAISS path:
+  - `DB_FAISS_PATH = 'vectorstore/db_faiss'` (this will create a `vectorstore` folder in the root directory, with a `db_faiss` subfolder inside to store all vector store data for the LLM).
+- Set the Hugging Face repo ID:
+  - Go to the Hugging Face website (huggingface.co).
+  - Search for "models".
+  - Search specifically for "Mistral".
+  - Select "Mistral AI" and navigate to "Mistral-7B-Instruct-v0.3".
+  - Copy the model path: `'mistralai/Mistral-7B-Instruct-v0.3'`.
+  - Paste it as: `HUGGINGFACE_REPO_ID = 'mistralai/Mistral-7B-Instruct-v0.3'`.
+  - Notes on the model (as per the video): It is free to use, open source, and Hugging Face provides about 100 requests per day, which is sufficient for testing purposes.
+    - **Updated Note (as of August 2025)**: The model is an instruct fine-tuned version of Mistral-7B-v0.3 with extended vocabulary (32,768), v3 tokenizer support, and function calling. It lacks moderation mechanisms. It is open source (though license details like Apache 2.0 are typically applicable but not explicitly restated). Inference API is not directly deployed by providers, but accessible via Hugging Face tools; access requires login and sharing contact info. Free user rate limits for Hugging Face Inference API have changed: They are strict, often resetting hourly rather than daily, with recent reductions (e.g., from higher daily calls to more limited or paid tiers starting at ~$0.10 for certain usages; Pro plans offer higher limits like 20,000 requests/day but are not unlimited).
+
+#### 5. Completion and Next Steps
+- This completes all configurations in `config.py`.
+- Proceed to the next video for further development.
