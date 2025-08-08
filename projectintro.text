@@ -1,0 +1,157 @@
+section 9.105
+
+### Project Overview
+The project is a Medical RAG (Retrieval-Augmented Generation) Chatbot. The speaker assumes the viewer has seen the demo video and knows the basic concept. It's built using a tech stack that's not basic but key components include Hugging Face, Jenkins, Aqua Trivy, Flask, and AWS Cloud. Jenkins and Aqua Trivy are highlighted as MVPs (Most Valuable Products/Tools) used in over 5000 companies and very famous.
+
+### Tech Stack in Detail
+- **Hugging Face**: Used for both the LLM (Large Language Model) and the embedding model. 
+  - LLM: Mistral AI, an open-source model developed by a French startup. It's free; create an account, generate an access token, and use it to access the model. The LLM generates output based on input.
+  - Embedding Model: Example is all-MiniLM-L6-v4 (or similar, referred to as mini L4). Converts documents into embeddings for storage in the vector store.
+  - Data Source: A PDF file (medical encyclopedia). Extract content, convert to documents, then to embeddings using the embedding model.
+
+- **Vector Store: FAISS**: A local vector store to store embeddings. Full form: Facebook AI Similarity Search. Developed by Meta (parent company of Facebook, Instagram; Facebook was renamed Meta in the past 2-3 years). Documents can't be stored directly; they must be converted to embeddings first.
+
+- **LangChain**: A generative AI framework to interact with the models (LLM and embeddings).
+
+- **PyPDF**: Library to read the contents of the PDF file, extract text, and convert it into documents. These documents are then turned into embeddings and stored in the vector store.
+
+- **Flask and HTML/CSS**:
+  - Flask: Handles backend operations. Processes user inputs (e.g., queries), performs logic, and returns responses.
+  - HTML/CSS: Creates the UI (frontend). Users input data via forms (e.g., age in an example). Frontend sends requests to backend; backend processes and returns results to frontend for display.
+  - Example: User enters age 18 in frontend form. Backend (Flask) checks if >=18; returns "eligible" or "not eligible" for driving, displayed on frontend. If age 16 or 15, shows "not eligible".
+
+- **Docker**: Used for containerization during deployment. Create a Dockerfile to dockerize the application, allowing it to run as a container on AWS.
+
+- **Aqua Trivy (referred to as Trivy or TV)**: An open-source security scanner. Scans Docker images for vulnerabilities (weaknesses or flaws in the application/Docker container that hackers can exploit for unauthorized access, data leakage, or misuse).
+  - How it works: Detects issues like outdated libraries with security bugs (e.g., Flask version 2.0.1 has bugs; suggests upgrading to 2.1.0 where bugs are fixed). Scans requirements.txt, gives warnings and suggestions to preserve security from hackers.
+
+- **Jenkins**: Used for CI/CD pipelines (Continuous Integration/Continuous Deployment). Automates: Code checkout from GitHub, building Docker image, pushing image, scanning with Trivy, and deploying to AWS Runner.
+  - AWS Runner: A service by AWS to easily run applications on the cloud. Connect it to Jenkins; click "build" button to execute the entire pipeline.
+
+- **GitHub**: Acts as SCM (Source Code Management). Stores all project code, tracks changes, and maintains records.
+
+- **AWS Cloud**: For deployment. Includes ECR (Elastic Container Registry) to store Docker images (similar to Docker Hub or Google Container Registry). Images are pushed to ECR, then deployed to AWS Runner.
+
+### Project Workflow
+The workflow is detailed and sequential:
+
+1. **Project and API Setup**: Create a virtual environment. Set up logging and custom exceptions (needed for production-grade projects). Define project structure with various folders and files. Create setup file, requirements file, and environment file to store API keys (e.g., Hugging Face access token).
+
+2. **Hugging Face Setup**: Create/sign in to Hugging Face account, generate access token, store in environment variables. In configuration code, access environment variables, specify LLM version (Mistral AI) and embedding model.
+
+3. **PDF Loader Code**: PDF stored in a data folder. Fetch PDF, read contents using PyPDF, convert to documents, then to chunks using LangChain.
+
+4. **Embeddings Code**: Convert chunks into embeddings using the Hugging Face embedding model.
+
+5. **Vector Store Code**: Store embeddings in FAISS vector store.
+
+6. **Data Loader Code**: Combines the above: PDF loader + embeddings + vector store into one pipeline. Reads PDF, converts to chunks, to embeddings, and stores in vector store.
+
+7. **LLM Setup Video**: Connect Hugging Face API to the specific LLM (Mistral AI). Define parameters: Prompt format, output format, temperature (0-1 scale for creativity; 0 = non-creative, 1 = highly creative; suggest 0.3-0.7 for balanced results. High temperature gives weird results; low gives minimal/no results).
+
+8. **Retrieval Code**: For user queries, retrieve relevant data from the vector store (documents/embeddings). Send retrieved context to LLM for refined output. Creates a retriever to fetch and return answers.
+
+9. **Main Application Code**: Combines frontend (HTML/CSS for UI/forms) and backend (Flask for logic/processing). As seen in demo video; handles user inputs and displays responses.
+
+10. **Code Building Using GitHub**: Push all code to GitHub repository for storage and tracking.
+
+11. **Dockerfile Creation**: Configures container creation: Install requirements, run setup files, specify Python image, define Flask port (5000), how to run the app (e.g., python app.py).
+
+12. **Jenkins CI/CD Pipeline**:
+    - Set up Jenkins on PC.
+    - Integrate GitHub with Jenkins (code is in GitHub).
+    - Pipeline steps: Checkout code from GitHub, build Docker image using Dockerfile, scan image with Trivy for vulnerabilities, push image to AWS ECR, deploy image to AWS Runner as an application.
+    - All executes on clicking the "build" button in Jenkins.
+
+The speaker hopes the viewer understands the main points, enjoys the project, learns something new, and can move forward.
+
+9.106
+
+### Project Setup for Medical RAG Chatbot
+
+#### 1. Create Project Folder
+- Navigate to your desired project directory.
+- Create a new folder for the project.
+- Name it "Medical rag chatbot" (or any preferred name, e.g., "rag medical chat bot").
+
+#### 2. Open Folder in VS Code
+- Open the folder in your terminal.
+- Run the command `code .` to open the folder in VS Code.
+- This will launch VS Code with the project folder as the workspace.
+
+#### 3. Create and Activate Virtual Environment
+- In VS Code, go to the top bar and select Terminal > New Terminal.
+- Ensure the terminal is opened as Command Prompt.
+- Run the command: `python -m venv venv` (you can use any name for the environment, but "venv" is used here).
+- Wait 10-15 seconds for the virtual environment folder to be created (it will appear on the left side in VS Code).
+- Activate the environment: Run `venv\Scripts\activate`.
+- Confirmation: The terminal prompt will show `(venv)` at the beginning, indicating successful creation and activation.
+
+#### 4. Create requirements.txt File
+- In the root directory, create a file named `requirements.txt`.
+- List the following libraries (one per line) for the project:
+  - langchain (for core functionality).
+  - langchain_community (additional community features).
+  - langchain_huggingface (for Hugging Face integration).
+  - faiss-cpu (for vector stores, used on CPU).
+  - pypdf (for PDF parsing, to be used later).
+  - huggingface_hub (for using Hugging Face API).
+  - flask (for creating the web app).
+  - python-dotenv (for handling environment variables, e.g., storing API keys).
+
+#### 5. Set Up Project Structure
+- In the root directory, create a folder named `app`.
+- Inside `app`, create an `__init__.py` file (to treat `app` as a Python package).
+- Inside `app`, create the following subfolders:
+  - `common`: For common files like logging and custom exceptions.
+    - Inside `common`, create `__init__.py` (to treat it as a package).
+    - Create `logger.py` (for logging functionality).
+    - Create `custom_exception.py` (for custom exceptions).
+    - Copy the code for `logger.py` and `custom_exception.py` from GitHub (provided in resources or previous sections; the code has been explained thoroughly elsewhere).
+  - `components`: For app components like LLM, retriever, PDF loader, data loader files, etc.
+  - `config`: For configurations, such as loading APIs and models.
+  - `templates`: For HTML web pages (required for Flask).
+
+#### 6. Create setup.py File
+- In the root directory, create a file named `setup.py`.
+- Copy the code for `setup.py` from GitHub or previous resources (explained in detail elsewhere).
+- Purpose: 
+  - Collects and installs all packages listed in `requirements.txt`.
+  - Handles project package management (e.g., treats folders with `__init__.py` as packages).
+- Modify the project name in the code to "Rag medical Chatbot" (or your preferred name).
+- Save the file.
+
+#### 7. Install Requirements and Set Up Package
+- Ensure the virtual environment is activated.
+- In the terminal, run: `pip install -e .`.
+- This triggers `setup.py`, installs all libraries from `requirements.txt`, and sets up the project as a package.
+- Wait for installation to complete (time depends on internet speed and number of libraries).
+
+#### 8. Prepare Data Folder and Download PDF
+- In the root directory, create a folder named `data`.
+- For the medical chatbot, download a medical PDF (e.g., an "encyclopedia of medicine" PDF, around 10 MB in size, from GitHub resources).
+- You can use any relevant medical PDF.
+- Copy the downloaded PDF from your downloads folder into the `data` directory.
+
+#### 9. Set Up Hugging Face Account and API Token
+- Open any browser and search for "Hugging Face".
+- Create an account if you don't have one.
+- Go to your profile section.
+- Navigate to "Access Tokens".
+- Generate a new token:
+  - Select the "Write" section (options: fine-grained, read, write).
+  - Name the token (any name).
+  - Create the token; it will provide an access token key.
+- Copy the token (create your own; do not use others as they may be deactivated).
+
+#### 10. Create .env File for Environment Variables
+- In the root directory, create a file named `.env`.
+- Add the following lines:
+  - `HF_TOKEN=your_huggingface_token` (paste the copied token here).
+  - `HUGGINGFACE_API_TOKEN=your_huggingface_token` (paste the same token here; both are used for Hugging Face API access).
+- Save the file.
+- Note: This stores API keys securely for use via python-dotenv.
+
+#### 11. Next Steps
+- Wait for all library installations to complete successfully.
+- Once done, proceed to the next video for further project development (e.g., PDF parsing, components implementation).
