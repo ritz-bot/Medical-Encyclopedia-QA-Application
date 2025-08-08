@@ -206,3 +206,94 @@ The speaker hopes the viewer understands the main points, enjoys the project, le
 #### 5. Completion and Next Steps
 - This completes all configurations in `config.py`.
 - Proceed to the next video for further development.
+
+9.108
+
+### PDF Loader Code Setup for Medical RAG Chatbot
+
+#### 1. Set Up components Directory as a Package
+- Navigate to the `app` directory.
+- Inside `app`, go to the `components` directory.
+- Create a file named `__init__.py` inside `components` to treat it as a Python package.
+- After creating `__init__.py`, run the command `pip install -e .` in the terminal (ensure virtual environment is activated) to update and treat the `components` directory as a package.
+- Note: The installation may take time; once successful, you can close the terminal.
+
+#### 2. Create pdf_loader.py File
+- Inside the `components` directory, create a new file named `pdf_loader.py`.
+- Purpose: This file handles loading PDF files from the data directory and splitting their content into text chunks for the RAG chatbot.
+- Code can be copied from GitHub (mentioned in the resource section) if you don't want to write it from scratch, but for learning, follow the steps below.
+
+#### 3. Imports in pdf_loader.py
+- Import the following libraries and modules:
+  - `import os` (for path handling).
+  - From `langchain_community.document_loaders`:
+    - `DirectoryLoader` (to load files from a directory).
+    - `PyPDFLoader` (specifically for loading PDF files).
+  - From `langchain.text_splitter`:
+    - `RecursiveCharacterTextSplitter` (to split text into chunks; e.g., splits sentences like "My name is Dan" into smaller parts like "My", "name", "is", "Dan").
+  - From `app.common.logger`:
+    - `get_logger` (for logging functionality).
+  - From `app.common.custom_exception`:
+    - `CustomException` (for custom error handling).
+  - From `app.config.config`:
+    - `DATA_PATH` (path to the data directory containing PDFs).
+    - `CHUNK_SIZE` (chunk size for text splitting, defined as 500 in config).
+    - `CHUNK_OVERLAP` (chunk overlap for text splitting, defined as 50 in config).
+
+#### 4. Initialize Logger
+- Add: `logger = get_logger(__name__)` 
+- This initializes the logger successfully using the module's name.
+
+#### 5. Function: load_pdf_files()
+- Purpose: Loads all PDF files from the `data` directory (handles any number of PDFs: 1, 3, 15, etc.; if multiple PDFs are added to `data`, it fetches all of them).
+- Define the function: `def load_pdf_files():`
+- Use a try-except block for error handling.
+- Inside try:
+  - Check if the data path exists: `if not os.path.exists(DATA_PATH):`
+    - If not, raise `CustomException("Data path does not exist")`.
+  - If it exists: `logger.info(f"Loading files from {DATA_PATH}")`.
+  - Initialize the loader: `loader = DirectoryLoader(DATA_PATH, glob="*.pdf", loader_cls=PyPDFLoader)`
+    - `DATA_PATH`: The directory to load from.
+    - `glob="*.pdf"`: Specifies to fetch only PDF files (ignores text files, PowerPoint, etc.).
+    - `loader_cls=PyPDFLoader`: Uses PyPDFLoader for PDF handling.
+  - Load the documents: `documents = loader.load()`
+    - All loaded PDF content is stored in `documents`.
+  - Check if documents were loaded:
+    - `if not documents: logger.warning("No PDFs were found")` (warning if no PDFs in data folder; suggests adding data).
+    - Else: `logger.info(f"Successfully fetched {len(documents)} documents")` (logs the number of documents fetched, e.g., 1 PDF shows "1 document", 5 PDFs shows "5 documents").
+  - Return the documents: `return documents`.
+- Inside except: `except Exception as e:`
+  - Create error message: `error_message = CustomException("Failed to load PDFs")`.
+  - Raise the custom exception: `raise error_message`.
+  - Log the error: `logger.error(str(error_message))`.
+  - Optionally return an empty list: `return []` (this is optional and can be removed without affecting functionality; used if loading fails).
+
+#### 6. Function: create_text_chunks(documents)
+- Purpose: Takes the loaded documents, extracts their content, and splits it into smaller text chunks (e.g., breaking down text for LLM processing).
+- Define the function: `def create_text_chunks(documents):`
+- Use a try-except block for error handling.
+- Inside try:
+  - Check if documents exist: `if not documents:`
+    - Raise `CustomException("No documents were found")`.
+  - Log the splitting process: `logger.info(f"Splitting {len(documents)} documents into chunks")` (e.g., logs "Splitting 1 documents" or "Splitting 2 documents").
+  - Initialize the text splitter: `text_splitter = RecursiveCharacterTextSplitter(chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP)`
+    - Uses the predefined `CHUNK_SIZE` (500) and `CHUNK_OVERLAP` (50) from config.
+  - Split the documents: `text_chunks = text_splitter.split_documents(documents)`
+    - Splits all document content into chunks, stored in `text_chunks`.
+  - Log the result: `logger.info(f"Generated {len(text_chunks)} text chunks")` (e.g., shows how many chunks were created).
+  - Return the chunks: `return text_chunks`.
+- Inside except: `except Exception as e:`
+  - Similar to the previous function: `error_message = CustomException("Failed to generate chunks")`.
+  - Raise `error_message`.
+  - `logger.error(str(error_message))`.
+  - Optionally return an empty list: `return []`.
+
+#### 7. Summary of pdf_loader.py
+- Imports: Langchain document loaders (DirectoryLoader, PyPDFLoader), text splitter (RecursiveCharacterTextSplitter), logger, custom exception, and configurations (DATA_PATH, CHUNK_SIZE, CHUNK_OVERLAP).
+- Initialize logger.
+- Function `load_pdf_files()`: Loads all PDFs from the data directory, checks existence, logs details, handles multiple files, and returns documents (with exception handling).
+- Function `create_text_chunks(documents)`: Splits loaded document content into chunks using the text splitter, logs the process, and returns the chunks (with exception handling).
+- Overall: The file fetches PDF data and prepares it as chunked text for further use in the chatbot.
+
+#### 8. Next Steps
+- Proceed to the next video for further development.
