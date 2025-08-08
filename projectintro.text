@@ -297,3 +297,135 @@ The speaker hopes the viewer understands the main points, enjoys the project, le
 
 #### 8. Next Steps
 - Proceed to the next video for further development.
+
+
+9.109
+
+### Embeddings Code Setup for Medical RAG Chatbot
+
+#### 1. Create embeddings.py File
+- Navigate to the `app` directory.
+- Inside `app`, go to the `components` directory.
+- Create a new file named `embeddings.py`.
+
+#### 2. Imports in embeddings.py
+- Import from LangChain for Hugging Face embeddings: `from langchain_huggingface import HuggingFaceEmbeddings`.
+- Import logger and custom exception:
+  - `from app.common.logger import get_logger`
+  - `from app.common.custom_exception import CustomException`
+
+#### 3. Initialize Logger
+- Add: `logger = get_logger(__name__)`
+- This initializes the logger using the module's name.
+
+#### 4. Function: get_embedding_model()
+- Purpose: Loads an embedding model to convert text chunks (from the previous PDF loader step) into embeddings. Models understand embeddings (numerical representations), not raw text chunks, so this step is necessary for the RAG process.
+- Define the function: `def get_embedding_model():`
+- Use a try-except block for error handling.
+- Inside try:
+  - Log the initialization: `logger.info("Initializing our Hugging Face embedding model")`.
+  - Load the model: `model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")`
+    - Notes: This is the most common and widely used embedding model (Sentence Transformers' all-MiniLM-L6-v2). You can choose other models by changing the name.
+    - To select alternatives: Go to Hugging Face, search for embeddings (e.g., "sentence transformer").
+    - For domain-specific: Search for "medical embedding" on Hugging Face; there are models trained specifically on medical data (better for medical chatbots), law data, etc.
+  - Log successful loading: `logger.info("Hugging Face embedding model loaded successfully")`.
+  - Return the model: `return model`.
+- Inside except: `except Exception as e:`
+  - Create error message: `error_message = CustomException("Error occurred while loading embedding model")`.
+  - Raise the custom exception: `raise error_message`.
+  - Log the error: `logger.error(str(error_message))`.
+  - Optionally raise or return; the code raises the error message.
+
+#### 5. Summary of embeddings.py
+- Imports: HuggingFaceEmbeddings from LangChain, logger, and custom exception.
+- Initialize logger.
+- Function `get_embedding_model()`: Loads the embedding model (specifically "sentence-transformers/all-MiniLM-L6-v2"), logs the process, handles exceptions, and returns the model for converting text chunks to embeddings.
+
+#### 6. Updated Notes (as of August 2025)
+- The "sentence-transformers/all-MiniLM-L6-v2" model maps sentences and paragraphs to a 384-dimensional vector space, suitable for tasks like clustering, semantic search, and RAG. It remains one of the most downloaded and reliable open-source embedding models on Hugging Face, with variants like ONNX and GGUF for optimized inference.
+- For medical data: Better options include domain-specific models like PubMedBERT (strong for medical literature) or ClinicalBERT (trained on a 1.2B-word multicenter medical corpus). Recent benchmarks (e.g., MTEB leaderboard) recommend models like all-mpnet-base-v2 for general RAG, but for medical precision, fine-tuned models like those from medicalai or gte-base perform well. Hugging Face's text-embeddings-inference library is recommended for fast deployment in 2025.
+
+#### 7. Next Steps
+- This completes the embeddings code.
+- Proceed to the next video for further development.
+
+9.110
+
+### Vector Store Code Setup for Medical RAG Chatbot
+
+#### 1. Create vector_store.py File
+- Navigate to the `app` directory.
+- Inside `app`, go to the `components` directory.
+- Create a new file named `vector_store.py`.
+
+#### 2. Imports in vector_store.py
+- Import the vector store (FAISS): `from langchain_community.vector_stores import FAISS` (this is the vector store being used).
+- Import the embedding function from previous file: `from app.components.embeddings import get_embedding_model` (to get the embedding model).
+- Import logger and custom exception:
+  - `from app.common.logger import get_logger`
+  - `from app.common.custom_exception import CustomException`
+- Import configuration: `from app.config.config import DB_FAISS_PATH` (the path where the vector store will be stored).
+- Also import `os` (mentioned later in the code for path checking): `import os`.
+
+#### 3. Initialize Logger
+- Add: `logger = get_logger(__name__)`
+- This initializes the logger using the module's name (after imports).
+
+#### 4. Overview of Functions
+- Two functions will be created:
+  - One to load an existing (previous) vector store (to avoid recreating it every time the app runs).
+  - One to create and save a new vector store (for the first time or when needed).
+- Workflow: If creating for the first time, use the create function. If it already exists, use the load function to reuse it.
+
+#### 5. Function: load_vector_store()
+- Purpose: Loads an existing vector store if it exists at the specified path.
+- Define the function: `def load_vector_store():`
+- Use a try-except block for error handling.
+- Inside try:
+  - Load the embedding model: `embedding_model = get_embedding_model()` (calls the function from embeddings.py; loads the all-MiniLM-L6-v2 model, stored in `embedding_model`).
+  - Check if the vector store exists: `if os.path.exists(DB_FAISS_PATH):`
+    - If yes: `logger.info("Loading existing vector store")`.
+    - Load and return it: `return FAISS.load_local(DB_FAISS_PATH, embedding_model, allow_dangerous_deserialization=True)`
+      - Loads from `DB_FAISS_PATH`.
+      - Passes the `embedding_model`.
+      - Sets `allow_dangerous_deserialization=True` (required for loading).
+  - Else (if it doesn't exist): `logger.warning("No vector store found")`.
+- Inside except: `except Exception as e:`
+  - Create error message: `error_message = CustomException("Failed to load vector store")`.
+  - Log the error: `logger.error(str(error_message))`.
+  - Note: The transcript implies raising or handling the exception, but doesn't explicitly say to raise it here; focus is on logging.
+
+#### 6. Function: save_vector_store(text_chunks)
+- Purpose: Creates a new vector store from text chunks (converts chunks to embeddings and saves).
+- Define the function: `def save_vector_store(text_chunks):` (passes `text_chunks` as parameter; these are the split text from PDF loader).
+- Note: It's a function, not a method (no class used).
+- Use a try-except block for error handling.
+- Inside try:
+  - Check if text chunks are provided: `if not text_chunks:`
+    - Raise `CustomException("No chunks were found")`.
+  - If chunks exist: `logger.info("Generating your new vector store")`.
+  - Load the embedding model: `embedding_model = get_embedding_model()` (same as in load function).
+  - Create the vector store: `db = FAISS.from_documents(text_chunks, embedding_model)`
+    - Uses `FAISS.from_documents` to create from PDF documents' text chunks.
+    - Requires two parameters: `text_chunks` and `embedding_model`.
+  - Log saving: `logger.info("Saving vector store")`.
+  - Save it: `db.save_local(DB_FAISS_PATH)`
+    - Saves to the path `DB_FAISS_PATH`.
+  - Log success: `logger.info("Vector store saved successfully")`.
+  - Return the db: `return db`.
+- Inside except: `except Exception as e:`
+  - Similar to load function: `error_message = CustomException("Failed to create new vector store")`.
+  - Log the error: `logger.error(str(error_message))`.
+  - Note: Copy the exception handling from the load function and adjust the message.
+
+#### 7. Summary of vector_store.py
+- Imports: FAISS from langchain_community, get_embedding_model from components.embeddings, logger, custom exception, DB_FAISS_PATH from config.config, and os.
+- Initialize logger.
+- Function `load_vector_store()`: Loads existing FAISS vector store if it exists using the embedding model, with logging and exception handling (warns if not found).
+- Function `save_vector_store(text_chunks)`: Creates a new FAISS vector store from text chunks using the embedding model, saves it locally, with checks, logging, and exception handling.
+- Overall: Handles creation and loading of the vector store to persist it across app runs (avoids recreating every time).
+
+#### 8. Next Steps
+- This completes the code for creating and loading the vector store.
+- In the next video, combine the PDF loader, embeddings, and vector store files into a new file to actually create/load the vector store in practice.
+- Proceed to the next video for further development.
