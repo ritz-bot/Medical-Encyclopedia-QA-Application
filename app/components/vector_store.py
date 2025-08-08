@@ -39,7 +39,7 @@ def save_vector_store(text_chunks):
 
         db = FAISS.from_documents(text_chunks,embedding_model)
 
-        logger.info("Saving vectorstoree")
+        logger.info("Saving vectorstore")
 
         db.save_local(DB_FAISS_PATH)
 

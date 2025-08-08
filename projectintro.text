@@ -429,3 +429,288 @@ The speaker hopes the viewer understands the main points, enjoys the project, le
 - This completes the code for creating and loading the vector store.
 - In the next video, combine the PDF loader, embeddings, and vector store files into a new file to actually create/load the vector store in practice.
 - Proceed to the next video for further development.
+
+9.111
+
+### Summary of the Transcript: Creating the Data Loader in the Project
+
+Bhai, yeh transcript ek video ka hai jisme data_loader.py file banate hain, jo project ke components directory mein important file hai. Yeh file embeddings.py, pdf_loader.py, aur vector_store.py ko use karke PDFs ko process karta hai aur vector store create karta hai (Faiss-based, lagta hai). Main details miss nahi karunga – step-by-step code aur explanation cover karunga. Yeh likely previous AI agent project ka continuation hai, jahaan PDFs se data load karke vector store banate hain for retrieval or search.
+
+#### Key Concept: Data Loader Ka Role
+- Data loader basically PDFs ko load karta hai, unko text chunks mein convert karta hai, aur phir embeddings use karke vector store mein save karta hai.
+- Yeh components directory mein most important file hai, kyunki yeh saare previous files (embeddings, pdf_loader, vector_store) ko ek saath use karta hai.
+- Vector store create karne ke liye yeh step-by-step kaam karta hai: Load PDFs → Create chunks → Save to vector store.
+
+#### Code Structure in data_loader.py
+File banane ke steps:
+
+1. **Imports**:
+   - `import os` (basic library).
+   - From `app.components.pdf_loader`: `load_pdf_files` aur `create_text_chunks` (PDFs load aur chunk karne ke functions, previous video mein banaye gaye).
+   - From `app.components.vector_store`: `save_vector_store` (vector store save karne ka function, jo embeddings.py pe depend karta hai).
+   - From `app.config.config`: `DB_FAISS_PATH` (vector store ka path, Faiss DB ke liye).
+   - Logger aur exception: `from app.common.logger import get_logger` aur `from app.common.custom_exception import CustomException`.
+   - Logger initialize: `logger = get_logger(__name__)` (magic method `__name__` use karke).
+
+   Note: Sirf yeh imports needed hain, baaki extra nahi.
+
+2. **Function Definition: process_and_store_pdfs()**
+   - Yeh main function hai, jo empty start hoti hai phir code add karte hain.
+   - Pehle logging: `logger.info("Making the vector store")`.
+   - Step 1: PDFs load karo from 'data' directory (project ke outside ya app ke andar, transcript mein adjust kiya gaya).
+     - `documents = load_pdf_files()` (yeh function pdf_loader se aata hai, aur isme already logging built-in hai, isliye extra log nahi add kiya).
+   - Step 2: Documents ko text chunks mein convert karo.
+     - `text_chunks = create_text_chunks(documents)` (pdf_loader se).
+   - Step 3: Chunks ko vector store mein save karo.
+     - `save_vector_store(text_chunks)` (vector_store.py se, jo embeddings load karta hai indirectly).
+   - Success logging: `logger.info("Vector store created successfully")`.
+   - Exception Handling:
+     - `except Exception as e:` block.
+     - Error message create: `error_message = CustomException("Failed to create vector store", e)`.
+     - Log error: `logger.error(str(error_message))`.
+
+   Yeh function sirf itna hi karta hai – teen steps: load, chunk, save. Vector store embeddings.py pe depend karta hai (indirectly via save_vector_store).
+
+3. **Running the File**:
+   - `__if __name__ == "__main__":` block add karo.
+     - Yeh check karta hai ki file directly run ho rahi hai (e.g., terminal se).
+     - Andar: `process_and_store_pdfs()` call karo.
+   - Explanation: Agar koi terminal mein `python app/components/data_loader.py` run kare, toh yeh block execute hoga. Yeh ensure karta hai ki function sirf tab chale jab file standalone run ho, import hone pe nahi.
+
+#### Execution Demo
+- Terminal kholo (new terminal or command prompt).
+- Command: `python app/components/data_loader.py` (app directory ke andar components folder mein file hai).
+- Kaam: `__name__ == "__main__"` true hone pe function chalega.
+  - PDFs 'data' folder se load honge.
+  - Chunks banenge.
+  - Embeddings create honge aur vector store save hoga (DB_FAISS_PATH pe).
+- Time lagega kyunki PDFs load, chunking, embeddings computation heavy hai.
+- Logs show honge:
+  - "Making the vector store" start pe.
+  - Load_pdf_files ke built-in logs.
+  - "Vector store created successfully" end pe.
+- Output: Left pane mein 'vector_store' folder banega, andar 'db_faiss' subfolder mein files like 'index.faiss' aur 'index.pkl' (transcript mein 'index dot files' aur 'index dot SQL' bola, but Faiss ke liye typically .faiss aur .pkl hote hain – shayad typo, SQL nahi Faiss hai).
+- Success: Vector store properly created, logs generate hue.
+
+#### Additional Notes from Transcript
+- 'data' folder initially app ke andar tha, but outside move kiya for better structure.
+- Pdf_loader mein logging already hai, isliye extra nahi add kiya load step pe.
+- Vector store vector_store.py pe depend karta hai, jo embeddings load karta hai.
+- Next video pe move karne ka mention end mein.
+- No errors in demo – sab smooth chala, vector store files ban gaye.
+
+Bhai, yeh full detailed summary hai – code snippets, steps, aur explanations miss nahi kiye. Agar yeh project resume ke liye hai (jaise previous chat mein), toh yeh part RAG (Retrieval-Augmented Generation) system ke vector store creation ko highlight karta hai, jo AI/ML roles mein valuable hai. Koi extra doubt ho toh bata!
+
+9.112
+
+Updated Summary of the Transcript: Writing Code for LLM Setup in llm.py
+Bhai, yeh transcript ek video ka hai jisme Large Language Model (LLM) setup ke liye code likhte hain – file llm.py (transcript mein "lm dot pi" bola, but clearly llm.py hai) components directory mein. Yeh Hugging Face se Mistral-7B-Instruct-v0.3 model load karta hai using LangChain. Main details miss nahi karunga: step-by-step imports, function code, explanations, aur future use sab cover karunga. Transcript mein kuch typos hain (e.g., "Mr. Lai" Mistral AI, "HDF token" HF_TOKEN), but intent clear hai – medical chatbot project ka continuation, vector store ke saath integrate hone waala.
+Video Introduction
+
+Video ka focus: LLM setup code likhna.
+Directory: Components folder mein jaao aur new file create karo: llm.py.
+
+Imports Section
+
+Basic imports for LangChain LLMs:
+
+from langchain.llms import HuggingFaceHub (Hugging Face Hub se model load karne ke liye).
+
+
+Config se model details:
+
+from app.config.config import HF_TOKEN, HUGGINGFACE_REPO_ID
+
+HUGGINGFACE_REPO_ID: 'mistralai/Mistral-7B-Instruct-v0.3' (Mistral AI model, instruct version 0.3 – yeh woh repo hai jahaan se model load hoga).
+HF_TOKEN: Hugging Face API token (.env file se aata hai).
+
+
+
+
+Logger aur exception handling:
+
+from app.common.logger import get_logger
+from app.common.custom_exception import CustomException
+
+
+Logger initialize: logger = get_logger(__name__) (magic method __name__ use karke, jo current module name deta hai).
+
+Function Definition: load_llm
+
+Function create karo: def load_llm(huggingface_repo_id: str = HUGGINGFACE_REPO_ID, hf_token: str = HF_TOKEN):
+
+Parameters:
+
+huggingface_repo_id: String, default se HUGGINGFACE_REPO_ID (repo jahaan model hai).
+hf_token: String, default se HF_TOKEN (API token).
+
+
+Yeh function two things need karta hai: Repo ID (model kahaan se load karna) aur token.
+
+
+Try-Except Block:
+
+Try mein:
+
+Logging: logger.info("Loading LLM from Hugging Face") (ya kuch custom log, jaise video mein bola – "whatever log you want").
+LLM initialize:
+
+llm = HuggingFaceHub(
+
+repo_id=repo_id, (parameter se aata hai, default Mistral repo).
+model_kwargs={ (dictionary for model parameters):
+
+'temperature': 0.3, (randomness control: Lower temperature = lower randomness, less creative output. Video mein explain: "We don't want much creative model, we want only less creative models." Higher temperature = more creative, but yahaan low rakha for precise responses).
+'max_length': 256, (max tokens in response: Example diya – "What is your name?" ka response like "My name is Medical Bot" mein tokens count karta hai. Standard 256 rakha to limit response size).
+'return_full_text': False (sirf last response return karo, nahi to full text including all intermediate steps. Reason: Time, money, memory save – huge responses avoid karo. Explain: Hugging Face free nahi truly, token limits exhaust ho jaate hain, charge lag sakta hai if too many tokens).
+
+
+},
+huggingfacehub_api_token=hf_token (token pass karo for authentication).
+
+
+)
+Basically, LLM load karne ke liye teen cheezein: Repo ID, model parameters (temperature, max_length, return_full_text), aur API token.
+
+
+Success logging: logger.info("LLM loaded successfully")
+Return: return llm (loaded model return karo).
+
+
+Except block:
+
+except Exception as e:
+Error message: error_message = CustomException("Failed to load LLM", e) (custom exception with message aur original error).
+Log error: logger.error(str(error_message))
+
+
+
+
+Code simplicity: Video mein bola "I think it was simple enough." – Bas imports, logging, exception, aur do cheezein (repo ID aur token) se LLM load.
+
+Additional Explanations
+
+Temperature: Randomness measure – lower (0.3) = more deterministic, less creative (jaise medical queries ke liye suitable, nahi to wrong/creative answers aa sakte hain).
+Max Length: Response ke tokens limit – e.g., short answers ke liye 256 enough.
+Return Full Text False: Sirf final output, nahi to poora process text (time/money waste avoid).
+Hugging Face Limits: Free but limited – too many tokens generate karo to limits exhaust, charge lag sakta hai.
+Future Use: Yeh load_llm function next video mein use hoga for "retriever" – jo user queries ke answers fetch karega contextually from vector store.
+
+Retriever: User question pe answer fetch, but context vector store ke data se (medical data in this case).
+Example: "What is cancer?" → Medical details dega (disease info).
+"Cure for cancer?" → No certain cure bataayega.
+Irrelevant query (e.g., stocks) → No answer, kyunki context data ke according (medical PDFs/vector store se).
+Important: Answers data-fed context mein hone chahiye, nahi to irrelevant.
+
+
+
+End of Video
+
+Next: Retriever video mein move, jahaan LLM use karke answers fetch karenge with vector store context.
+
+9.113
+
+Updated Summary of the Transcript: Writing Code for LLM Setup in llm.py
+Bhai, yeh transcript ek video ka hai jisme Large Language Model (LLM) setup ke liye code likhte hain – file llm.py (transcript mein "lm dot pi" bola, but clearly llm.py hai) components directory mein. Yeh Hugging Face se Mistral-7B-Instruct-v0.3 model load karta hai using LangChain. Main details miss nahi karunga: step-by-step imports, function code, explanations, aur future use sab cover karunga. Transcript mein kuch typos hain (e.g., "Mr. Lai" Mistral AI, "HDF token" HF_TOKEN), but intent clear hai – medical chatbot project ka continuation, vector store ke saath integrate hone waala.
+Video Introduction
+
+Video ka focus: LLM setup code likhna.
+Directory: Components folder mein jaao aur new file create karo: llm.py.
+
+Imports Section
+
+Basic imports for LangChain LLMs:
+
+from langchain.llms import HuggingFaceHub (Hugging Face Hub se model load karne ke liye).
+
+
+Config se model details:
+
+from app.config.config import HF_TOKEN, HUGGINGFACE_REPO_ID
+
+HUGGINGFACE_REPO_ID: 'mistralai/Mistral-7B-Instruct-v0.3' (Mistral AI model, instruct version 0.3 – yeh woh repo hai jahaan se model load hoga).
+HF_TOKEN: Hugging Face API token (.env file se aata hai).
+
+
+
+
+Logger aur exception handling:
+
+from app.common.logger import get_logger
+from app.common.custom_exception import CustomException
+
+
+Logger initialize: logger = get_logger(__name__) (magic method __name__ use karke, jo current module name deta hai).
+
+Function Definition: load_llm
+
+Function create karo: def load_llm(huggingface_repo_id: str = HUGGINGFACE_REPO_ID, hf_token: str = HF_TOKEN):
+
+Parameters:
+
+huggingface_repo_id: String, default se HUGGINGFACE_REPO_ID (repo jahaan model hai).
+hf_token: String, default se HF_TOKEN (API token).
+
+
+Yeh function two things need karta hai: Repo ID (model kahaan se load karna) aur token.
+
+
+Try-Except Block:
+
+Try mein:
+
+Logging: logger.info("Loading LLM from Hugging Face") (ya kuch custom log, jaise video mein bola – "whatever log you want").
+LLM initialize:
+
+llm = HuggingFaceHub(
+
+repo_id=repo_id, (parameter se aata hai, default Mistral repo).
+model_kwargs={ (dictionary for model parameters):
+
+'temperature': 0.3, (randomness control: Lower temperature = lower randomness, less creative output. Video mein explain: "We don't want much creative model, we want only less creative models." Higher temperature = more creative, but yahaan low rakha for precise responses).
+'max_length': 256, (max tokens in response: Example diya – "What is your name?" ka response like "My name is Medical Bot" mein tokens count karta hai. Standard 256 rakha to limit response size).
+'return_full_text': False (sirf last response return karo, nahi to full text including all intermediate steps. Reason: Time, money, memory save – huge responses avoid karo. Explain: Hugging Face free nahi truly, token limits exhaust ho jaate hain, charge lag sakta hai if too many tokens).
+
+
+},
+huggingfacehub_api_token=hf_token (token pass karo for authentication).
+
+
+)
+Basically, LLM load karne ke liye teen cheezein: Repo ID, model parameters (temperature, max_length, return_full_text), aur API token.
+
+
+Success logging: logger.info("LLM loaded successfully")
+Return: return llm (loaded model return karo).
+
+
+Except block:
+
+except Exception as e:
+Error message: error_message = CustomException("Failed to load LLM", e) (custom exception with message aur original error).
+Log error: logger.error(str(error_message))
+
+
+
+
+Code simplicity: Video mein bola "I think it was simple enough." – Bas imports, logging, exception, aur do cheezein (repo ID aur token) se LLM load.
+
+Additional Explanations
+
+Temperature: Randomness measure – lower (0.3) = more deterministic, less creative (jaise medical queries ke liye suitable, nahi to wrong/creative answers aa sakte hain).
+Max Length: Response ke tokens limit – e.g., short answers ke liye 256 enough.
+Return Full Text False: Sirf final output, nahi to poora process text (time/money waste avoid).
+Hugging Face Limits: Free but limited – too many tokens generate karo to limits exhaust, charge lag sakta hai.
+Future Use: Yeh load_llm function next video mein use hoga for "retriever" – jo user queries ke answers fetch karega contextually from vector store.
+
+Retriever: User question pe answer fetch, but context vector store ke data se (medical data in this case).
+Example: "What is cancer?" → Medical details dega (disease info).
+"Cure for cancer?" → No certain cure bataayega.
+Irrelevant query (e.g., stocks) → No answer, kyunki context data ke according (medical PDFs/vector store se).
+Important: Answers data-fed context mein hone chahiye, nahi to irrelevant.
+
+
+
+End of Video
+
+Next: Retriever video mein move, jahaan LLM use karke answers fetch karenge with vector store context.
