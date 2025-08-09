@@ -714,3 +714,195 @@ Important: Answers data-fed context mein hone chahiye, nahi to irrelevant.
 End of Video
 
 Next: Retriever video mein move, jahaan LLM use karke answers fetch karenge with vector store context.
+
+
+9.113
+
+### Summary of the Transcript: Creating the Retrieval Chain in retrieval.py
+
+Bhai, yeh transcript ek video ka hai jisme retrieval.py file banate hain components directory mein, jo RAG (Retrieval-Augmented Generation) system ke liye retrieval chain set up karta hai medical chatbot project mein. Yeh previous videos ka continuation hai – lm.py (LLM load), vector_store.py (vector store load/create), aur config se. Main details miss nahi karunga: step-by-step imports, code, functions, explanations, aur potential issues (jaise VS Code import error) sab cover karunga. Transcript mein typos hain (e.g., "retrieval dot pi" shayad retrieval.py, "lm" LLM, "HDF token" HF_TOKEN, "Lange Chain" LangChain), but intent clear hai – custom prompt aur QA chain banake answers fetch karna vector store se, LLM use karke.
+
+#### Video Introduction
+- Video ka focus: Retrieval code likhna (retriever means user queries ke answers fetch karna contextually from vector store).
+- Directory: Components folder mein jaao aur new file create karo: retrieval.py.
+
+#### Imports Section
+- LangChain se retrieval QA:
+  - `from langchain.chains import RetrievalQA` (transcript mein "retrieval qa" bola, with spelling issues like "r t r I I t r I r e v l e v qa" – yeh QA chain ke liye hai).
+    - Note: VS Code mein import nahi show ho raha, but video mein bola "don't get confused, it is import" – shayad VS Code issue, LangChain ka nahi.
+- Prompts ke liye:
+  - `from langchain.prompts import PromptTemplate` (custom prompts banane ke liye).
+- Previous components se:
+  - `from app.components.lm import load_lm` (previous video se LLM load function).
+  - `from app.components.vector_store import load_vector_store` (existing vector store load karne ke liye – vector_store.py mein do functions the: create new aur load existing; yahaan load use karenge).
+- Config se:
+  - `from app.config.config import HUGGINGFACE_REPO_ID, HF_TOKEN` (Hugging Face repo ID aur token – Mistral model ke liye).
+- Logger aur exception:
+  - `from app.common.logger import get_logger`
+  - `from app.common.custom_exception import CustomException`
+- OS library (but end mein remove kiya gaya, kyunki nahi chahiye tha):
+  - `import os` (initially added, but later "remove this OS" bola).
+- Logger initialize: `logger = get_logger(__name__)` (magic method `__name__` se).
+
+Yeh sab imports aur logger init ke baad code start hota hai.
+
+#### Custom Prompt Template
+- Ek multi-line string define karo: `custom_prompt_template = """` (triple quotes use karke).
+- Prompt content:
+  - "Answer the following medical question in 2 to 3 lines maximum." (Short rakhne ka reason: Token limits exhaust na ho, kyunki long responses costly hote hain).
+  - "Using only the information provided in the context." (Model ko restrict karo taaki out-of-context na jaaye – e.g., "what is cancer?" pe sirf cancer info, nahi lung/throat cancer mix).
+  - Format: {context} (data from vector store), then {question} (user query), then Answer: (output).
+- Explanation: Prompt medical-specific hai, context-bound (vector store ke data se), aur concise (2-3 lines max).
+
+#### Function 1: set_custom_prompt()
+- Def: `def set_custom_prompt():`
+  - Return: `return PromptTemplate(template=custom_prompt_template, input_variables=["context", "question"])`
+    - Template: Upar wala custom_prompt_template pass karo.
+    - Input variables: ["context"] (data from vector store), ["question"] (user ka sawal).
+- Purpose: Custom prompt ko LangChain ke PromptTemplate mein convert karo, jo QA chain mein use hoga.
+
+#### Function 2: create_chain()
+- Def: `def create_chain():` (empty start, phir try-except add).
+- Try block:
+  - Logging: `logger.info("Loading vector store for context")` (context fetch ke liye).
+  - Load vector store: `db = load_vector_store()` (existing DB load, e.g., DB_FAISS_PATH se).
+  - Load LLM: `llm = load_lm(huggingface_repo_id=HUGGINGFACE_REPO_ID, hf_token=HF_TOKEN)` (optional params, default se bhi chalega, but explicitly pass kiya for clarity).
+  - Security checks (optional, for better code):
+    - `if db is None: raise CustomException("Vector store not present or empty")`
+    - `if llm is None: raise CustomException("LLM not loaded")`
+  - Create QA chain: `qa_chain = RetrievalQA.from_chain_type(`
+    - `llm=llm,` (loaded LLM pass).
+    - `chain_type="stuff",` (chain type 'stuff' – simple stuffing of context into prompt).
+    - `retriever=db.as_retriever(search_kwargs={"k": 1}),` (retriever from db; k=1 for most relevant document only).
+      - Explanation of k: Default 1 rakha taaki sirf sabse relevant result (e.g., "what is cancer?" pe exact cancer info, nahi related like lung/breast cancer). Agar more context chahiye (randomness/bigger chain), to k=3 (standard) ya higher badhao.
+    - `return_source_documents=False,` (source docs na return karo – unnecessary for chatbot, user ko extra info nahi chahiye).
+    - `chain_type_kwargs={"prompt": set_custom_prompt()}` (custom prompt pass karo via set_custom_prompt).
+  - `)` 
+  - Success logging: `logger.info("Successfully created the QA chain")`
+  - Return: `return qa_chain`
+- Except block:
+  - `except Exception as e:`
+  - `error_message = CustomException("Failed to make a QA chain", e)`
+  - `logger.error(str(error_message))`
+
+- Overall: Chain create karne ke liye do main cheezein: Vector store (context ke liye) aur LLM (answers generate ke liye).
+
+#### Additional Notes and Cleanup
+- Retriever ka role: User answers fetch karna vector store ke context se – medical data pe based (e.g., cancer query pe relevant info, irrelevant like stocks pe no answer).
+- OS import remove kiya end mein, kyunki nahi chahiye tha.
+- VS Code issue: RetrievalQA import nahi show ho raha, but "it will work" bola – LangChain ka nahi, VS Code problem.
+- Code confusion: "I know it's a bit confusing, but you can just copy paste if you want to save the time."
+
+#### End of Video
+- Next: Application code video mein move, jahaan retrieval chain use karke app banayenge aur test karenge (input/output generate hota hai ya nahi).
+- Yeh retriever answers generate karega LLM se, custom prompt follow karke.
+
+Bhai, yeh full detailed summary hai – code snippets, parameters explanations, logs, exceptions, aur workflow sab include kiye. Agar yeh medical chatbot ka part hai (jaise previous transcripts/logs se), toh yeh RAG pipeline complete karta hai: Vector store se retrieve → LLM se generate. Koi doubt ho toh bata!
+
+9.114
+
+### Summary of the Transcript: Building the Application Code for the Medical RAG Chatbot
+
+Bhai, yeh transcript ek video ka hai (duration 34:57 / 35:01) jisme medical RAG chatbot ke liye main application code likhte hain – Flask use karke web app banate hain, jo user queries handle karta hai, LLM responses generate karta hai retriever chain se, aur chat history maintain karta hai session ke through. Video mein HTML template se shuruaat hoti hai, phir application.py file ka full code, demo, fixes (LangChain updates), aur explanation. Main details miss nahi karunga: step-by-step code, explanations, optional parts, aur demo issues sab cover karunga. Transcript mein kuch repetitions aur typos hain (e.g., "ginger" Jinja, "LM" LLM, "FX token" HF_TOKEN, "VR tag" BR tag, "long chain" LangChain, "app dot pi" application.py), but intent clear hai – basic Flask app with chatbot functionality.
+
+#### HTML Template Setup (index.html)
+- Directory: App folder mein 'templates' subfolder jaao aur new file create karo: index.html.
+- Code Source: Scratch se nahi likh rahe, kyunki video web development pe nahi – ChatGPT se generate kiya gaya basic code use karo.
+  - Options: 
+    - Video wala code copy karo.
+    - GitHub repo (course mein given) se templates/index.html copy karo.
+    - Us code ko ChatGPT mein paste karo aur modify karwao for better look (e.g., more attractive UI, animations), but concept mat badlo (e.g., form with textarea name="prompt" for user input, send button for POST request).
+- Purpose: Yeh frontend hai – user query enter karne ke liye form (textarea name="prompt"), send button, aur responses display karne ke liye (Jinja2 templates use karke {{ messages }} loop se chat history show, e.g., role-based user/assistant messages).
+
+#### Main Code: application.py (in app directory)
+- Yeh main file hai jo Flask app run karta hai.
+- **Imports**:
+  - From Flask: `from flask import Flask, render_template, request, session, redirect, url_for` (class use karne ke liye bola, but standard Flask imports).
+  - Retriever: `from app.components.retriever import create_qa_chain` (previous video se QA chain function – transcript mein "create QA chain" bola).
+  - Env: `from dotenv import load_dotenv` (environment variables load ke liye).
+  - OS: `import os`
+  - Markup for safe rendering: `from markupsafe import Markup` (Jinja2 ke liye).
+
+- **Load Environment Variables**:
+  - `load_dotenv()` – .env file se sab variables load (e.g., HF_TOKEN) – yeh line sab env vars load karti hai.
+  - Optional: `hf_token = os.environ.get('HF_TOKEN')` (Hugging Face token fetch, but ignore kar sakte ho, default se chalega).
+
+- **Initialize Flask App**:
+  - `app = Flask(__name__)` (name magic method `__name__` se).
+  - Secret Key: `app.secret_key = os.urandom(24)` (random generate for sessions – 24 bytes).
+
+- **Markup Filter for NL to BR (Optional but Recommended)**:
+  - Function define: `def nl2br(value): return Markup(value.replace('\n', '<br>'))`
+    - Explanation: LLM responses mein new lines (\n) inconvenient hote hain (e.g., "My name is Sid\nMy hobby is coding" ko <br> se proper lines mein convert – HTML <br> tag new line deta hai). Yeh attractive display ke liye (look wise better), warna results pe effect nahi. Example diya: Raw \n output ko formatted <br> mein change.
+  - Register filter: `app.jinja_env.filters['nl2br'] = nl2br` (Jinja2 mein register – yeh three lines (\n to <br> conversion) karte hain safe HTML rendering ke liye).
+
+- **Route 1: '/' (Home – GET/POST)**:
+  - `@app.route('/', methods=['GET', 'POST'])`
+  - Def: `def index():`
+    - Session Init: `if 'messages' not in session: session['messages'] = []` (chat history ke liye empty list init if not present – messages include user queries aur assistant responses; yeh user queries/responses store karta hai).
+    - Handle POST (user submits query):
+      - `if request.method == 'POST':`
+        - Fetch input: `user_input = request.form.get('prompt')` (index.html ke form se textarea name="prompt" se query le – side-by-side HTML open karke explain kiya).
+        - If user_input: 
+          - Messages list: `messages = session['messages']` (current session se le).
+          - Append user message: `messages.append({'role': 'user', 'content': user_input})` (dictionary with role/content for history – chat history build karne ke liye, medical bot ko previous context mile).
+          - Update session: `session['messages'] = messages`
+        - Try block:
+          - Create chain: `qa_chain = create_qa_chain()` (retriever se – transcript mein "create a chain sequel to create a chain" bola).
+          - Invoke: `response = qa_chain.invoke(user_input)` (query pass karke response generate – user_input se result banao).
+          - Extract result: `result = response.get('result', 'No response')` (response ek dictionary hai – keys like 'query' (user input), 'context' (vector store se), 'result' (final answer); sirf 'result' fetch karo, context/query ignore – yeh final LLM answer hai).
+          - Append assistant message: `messages.append({'role': 'assistant', 'content': result})` (role 'assistant' ya kuch bhi like 'bot' – final answer store; user role 'user', assistant role 'assistant').
+          - Update session: `session['messages'] = messages` (history update).
+        - Except: `except Exception as e: error_message = str(e); return render_template('index.html', messages=session.get('messages', []), error=error_message)` (error handle aur display on page – Flask auto templates folder detect karta hai, isliye full path nahi).
+      - Redirect: `return redirect(url_for('index'))` (POST ke baad refresh to index function).
+    - Return for GET: `return render_template('index.html', messages=session.get('messages', []))` (chat history render – empty list if none).
+
+- **Route 2: '/clear' (Clear Chat History)**:
+  - `@app.route('/clear')`
+  - Def: `def clear(): session.pop('messages', None); return redirect(url_for('index'))` (session se 'messages' remove/destroy – history delete, redirect to home/index function; yeh clear button ke liye, jaise ChatGPT mein conversation history clear).
+
+- **Run the App**:
+  - `if __name__ == '__main__': app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)`
+    - Host 0.0.0.0 for production-grade.
+    - Port 5000 (Flask default).
+    - Debug False.
+    - use_reloader=False (most important – sessions preserve karne ke liye, warna reload pe history delete ho jaati, context lost; Flask default reloader auto reload karta hai).
+
+#### Demo and Running the App
+- Terminal: Open new terminal/cmd, `python app/application.py` run karo – app starts.
+- Logs: Loading vector store, embeddings (Hugging Face, SentenceTransformer init), chain create – URL like http://127.0.0.1:5000/ (logs se Ctrl+click to open).
+- Test on Browser ("AI Medical Chatbot" page):
+  - Query: "What is cancer?" → POST send, vector store check, output: "Cancer is a genetic disease with abnormal cells divide uncontrollably, disrupting the body's normal process." (correct).
+  - Follow-up: "Thank you" → Hallucinates (e.g., "Thank you editors" – limited 10MB PDF data se, not trained for casual replies).
+  - Another: "Can we cure cancer?" → "No not always" with therapies like chemotherapy/radiotherapy, but advanced stages weak chances.
+- Issues:
+  - Slow: Free model (Mistral), time lagta hai (paid like OpenAI/ChatGPT faster).
+  - Hallucination: Non-medical/casual queries pe (e.g., "Thank you" pe irrelevant output), kyunki data limited.
+  - Clear: Button click se history delete.
+- Initial Error: Outdated packages – fixed (see below).
+
+#### Fixes for Errors (LangChain Updates in lm.py)
+- Problem: App nahi chali, kyunki LangChain changes (old version use kiya tha).
+- Changes in lm.py (LLM setup):
+  - Old: `from langchain.llms import HuggingFaceHub` aur `llm = HuggingFaceHub(repo_id=..., model_kwargs={temperature:0.3, max_length:256, return_full_text:False})` (deprecated).
+  - New: `from langchain_huggingface import HuggingFaceEndpoint` (transcript mein "from long chain hugging face import hugging face endpoint").
+    - `llm = HuggingFaceEndpoint(repo_id=HUGGINGFACE_REPO_ID, huggingfacehub_api_token=HF_TOKEN, temperature=0.3, max_new_tokens=256, return_full_text=False)` (dictionary nahi, separate params; max_length → max_new_tokens).
+- Reason: HuggingFaceHub deprecated in current LangChain – endpoint use karo. Retriever aur baaki same.
+- After Fix: Re-run, logs show embedding model init, chain success – app works.
+
+#### Code Explanation Summary (End mein Repeat)
+- Imports/Env: Basic setup, env load, token get.
+- Markup NL to BR: Responses ko proper format ( \n → <br> – e.g., multi-line answers mein BR tags avoid garbled display).
+- Session: Chat history maintain (list of dicts with 'role'/'content' – user/assistant). Yeh memory deta hai (conversation history build – e.g., follow-up queries previous context use, jaise ChatGPT mein "what I asked first?" pe recall).
+  - Process: Session init → POST pe user input append (role 'user') → Chain invoke → Result append (role 'assistant') → Session update.
+- Routes: Home for interaction (query process, render messages), Clear for reset (pop messages).
+- Response: qa_chain.invoke se dictionary – sirf 'result' extract (query/context ignore).
+- Rendering: index.html pe messages loop se display, error bhi show.
+- Advice: Code confusing lage to copy-paste karo, line-by-line read – samajh aa jayega. index.html basic hai – ChatGPT se improve (interactive, animations), ya web dev experts apna banao (course mein web-to-AI switchers ke liye mention).
+
+#### Video End
+- Next video pe move.
+- Explanation "not that good" bola, but hope clear hai – app running shown.
+
+Bhai, yeh full detailed summary hai – code lines, explanations, demo, fixes sab include. Transcript same previous se, but yeh fresh hai with timestamps (34:57/35:01). Koi doubt ho toh bata!
+
