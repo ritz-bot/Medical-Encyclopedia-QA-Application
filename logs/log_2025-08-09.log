@@ -483,3 +483,69 @@ huggingfacehub_api_token
 2025-08-09 03:42:38,311 - ERROR - Failed to load vectorstore | Error: Error occurred while loading embedding model | Error: Invalid user token. The token from HF_TOKEN environment variable is invalid. Note that HF_TOKEN takes precedence over `hf auth login`. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 41 | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/vector_store.py | Line: 14
 2025-08-09 03:42:38,311 - ERROR - Failed to make a QA chain | Error: Vector store not present or empty | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/retriever.py | Line: 34
 2025-08-09 03:42:38,311 - INFO - 127.0.0.1 - - [09/Aug/2025 03:42:38] "POST / HTTP/1.1" 200 -
+2025-08-09 05:45:23,308 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-09 05:45:23,308 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-09 05:45:58,510 - INFO - 127.0.0.1 - - [09/Aug/2025 05:45:58] "GET / HTTP/1.1" 200 -
+2025-08-09 05:46:05,310 - INFO - Loading vector store for context
+2025-08-09 05:46:05,310 - INFO - Initializing our Huggingface embedding model
+2025-08-09 05:46:05,512 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-09 05:46:10,856 - INFO - Use pytorch device_name: mps
+2025-08-09 05:46:10,856 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-09 05:46:13,576 - INFO - Huggingface embedding model loaded successfully....
+2025-08-09 05:46:13,577 - INFO - Loading existing vectorstore...
+2025-08-09 05:46:13,579 - INFO - Loading faiss.
+2025-08-09 05:46:13,624 - INFO - Successfully loaded faiss.
+2025-08-09 05:46:13,628 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
+2025-08-09 05:46:13,652 - INFO - Loading LLM from HuggingFace
+2025-08-09 05:46:13,702 - INFO - LLM loaded sucesfully...
+2025-08-09 05:46:13,702 - INFO - Sucesfully created the QA chain
+2025-08-09 05:46:14,092 - INFO - 127.0.0.1 - - [09/Aug/2025 05:46:14] "POST / HTTP/1.1" 200 -
+2025-08-09 05:47:09,189 - INFO - Loading vector store for context
+2025-08-09 05:47:09,190 - INFO - Initializing our Huggingface embedding model
+2025-08-09 05:47:09,327 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-09 05:47:09,328 - INFO - Use pytorch device_name: mps
+2025-08-09 05:47:09,328 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-09 05:47:11,428 - INFO - Huggingface embedding model loaded successfully....
+2025-08-09 05:47:11,429 - INFO - Loading existing vectorstore...
+2025-08-09 05:47:11,610 - INFO - Loading LLM from HuggingFace
+2025-08-09 05:47:11,611 - INFO - LLM loaded sucesfully...
+2025-08-09 05:47:11,611 - INFO - Sucesfully created the QA chain
+2025-08-09 05:47:11,680 - INFO - 127.0.0.1 - - [09/Aug/2025 05:47:11] "POST / HTTP/1.1" 200 -
+2025-08-09 05:50:30,241 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.0.103:8000
+2025-08-09 05:50:30,241 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-09 05:51:04,468 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-09 05:51:04,469 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-09 05:51:07,292 - INFO - Loading vector store for context
+2025-08-09 05:51:07,293 - INFO - Initializing our Huggingface embedding model
+2025-08-09 05:51:07,470 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-09 05:51:11,763 - INFO - Use pytorch device_name: mps
+2025-08-09 05:51:11,763 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-09 05:51:13,631 - INFO - Huggingface embedding model loaded successfully....
+2025-08-09 05:51:13,631 - INFO - Loading existing vectorstore...
+2025-08-09 05:51:13,635 - INFO - Loading faiss.
+2025-08-09 05:51:13,678 - INFO - Successfully loaded faiss.
+2025-08-09 05:51:13,681 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
+2025-08-09 05:51:13,713 - INFO - Loading LLM from HuggingFace
+2025-08-09 05:51:13,772 - INFO - LLM loaded sucesfully...
+2025-08-09 05:51:13,772 - INFO - Sucesfully created the QA chain
+2025-08-09 05:51:14,123 - INFO - 127.0.0.1 - - [09/Aug/2025 05:51:14] "POST / HTTP/1.1" 200 -
+2025-08-09 05:52:03,759 - INFO - Loading vector store for context
+2025-08-09 05:52:03,759 - INFO - Initializing our Huggingface embedding model
+2025-08-09 05:52:03,877 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-09 05:52:03,878 - INFO - Use pytorch device_name: mps
+2025-08-09 05:52:03,878 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-09 05:52:05,748 - INFO - Huggingface embedding model loaded successfully....
+2025-08-09 05:52:05,748 - INFO - Loading existing vectorstore...
+2025-08-09 05:52:05,913 - INFO - Loading LLM from HuggingFace
+2025-08-09 05:52:05,913 - INFO - LLM loaded sucesfully...
+2025-08-09 05:52:05,914 - INFO - Sucesfully created the QA chain
+2025-08-09 05:52:05,952 - INFO - 127.0.0.1 - - [09/Aug/2025 05:52:05] "POST / HTTP/1.1" 200 -
