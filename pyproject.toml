@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "medical_chatbot"  # Customize this to your project name
+version = "0.1.0"  # Initial version; update as needed
+description = "A RAG-based medical chatbot project"  # Optional short description
+readme = "README.md"  # Optional; if you have a README file
+requires-python = ">=3.8"  # Minimum Python version; adjust if needed
+
+dependencies = [
+    "langchain",
+    "langchain_community",
+    "langchain_huggingface",
+    "faiss-cpu",
+    "pypdf",
+    "huggingface_hub",
+    "flask",
+    "python-dotenv",
+]
+
+# Optional: Add development dependencies if needed
+[project.optional-dependencies]
+dev = [
+    "black",  # For code formatting
+    "pytest",  # For testing
+    "ruff",   # For linting
+]
+
+[tool.setuptools.packages.find]
+where = ["."]  # Scans for packages in the current directory
+include = ["app*"]  # Adjust to include your package (e.g., 'app' and subpackages)

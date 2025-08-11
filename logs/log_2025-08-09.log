@@ -549,3 +549,81 @@ huggingfacehub_api_token
 2025-08-09 05:52:05,913 - INFO - LLM loaded sucesfully...
 2025-08-09 05:52:05,914 - INFO - Sucesfully created the QA chain
 2025-08-09 05:52:05,952 - INFO - 127.0.0.1 - - [09/Aug/2025 05:52:05] "POST / HTTP/1.1" 200 -
+2025-08-09 05:54:41,892 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-09 05:54:41,892 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-09 05:54:47,829 - INFO - Loading vector store for context
+2025-08-09 05:54:47,829 - INFO - Initializing our Huggingface embedding model
+2025-08-09 05:54:47,995 - ERROR - Error occurred while loading embedding model | Error: Invalid user token. The token from HF_TOKEN environment variable is invalid. Note that HF_TOKEN takes precedence over `hf auth login`. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 41
+2025-08-09 05:54:47,995 - ERROR - Failed to load vectorstore | Error: Error occurred while loading embedding model | Error: Invalid user token. The token from HF_TOKEN environment variable is invalid. Note that HF_TOKEN takes precedence over `hf auth login`. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 41 | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/vector_store.py | Line: 14
+2025-08-09 05:54:47,995 - ERROR - Failed to make a QA chain | Error: Vector store not present or empty | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/retriever.py | Line: 34
+2025-08-09 05:54:48,000 - INFO - 127.0.0.1 - - [09/Aug/2025 05:54:48] "POST / HTTP/1.1" 200 -
+2025-08-09 05:54:56,591 - INFO - Loading vector store for context
+2025-08-09 05:54:56,592 - INFO - Initializing our Huggingface embedding model
+2025-08-09 05:54:56,703 - ERROR - Error occurred while loading embedding model | Error: Invalid user token. The token from HF_TOKEN environment variable is invalid. Note that HF_TOKEN takes precedence over `hf auth login`. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 41
+2025-08-09 05:54:56,703 - ERROR - Failed to load vectorstore | Error: Error occurred while loading embedding model | Error: Invalid user token. The token from HF_TOKEN environment variable is invalid. Note that HF_TOKEN takes precedence over `hf auth login`. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 41 | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/vector_store.py | Line: 14
+2025-08-09 05:54:56,703 - ERROR - Failed to make a QA chain | Error: Vector store not present or empty | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/retriever.py | Line: 34
+2025-08-09 05:54:56,703 - INFO - 127.0.0.1 - - [09/Aug/2025 05:54:56] "POST / HTTP/1.1" 200 -
+2025-08-09 05:56:12,088 - INFO - Loading vector store for context
+2025-08-09 05:56:12,088 - INFO - Initializing our Huggingface embedding model
+2025-08-09 05:56:12,198 - ERROR - Error occurred while loading embedding model | Error: Invalid user token. The token from HF_TOKEN environment variable is invalid. Note that HF_TOKEN takes precedence over `hf auth login`. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 41
+2025-08-09 05:56:12,198 - ERROR - Failed to load vectorstore | Error: Error occurred while loading embedding model | Error: Invalid user token. The token from HF_TOKEN environment variable is invalid. Note that HF_TOKEN takes precedence over `hf auth login`. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 41 | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/vector_store.py | Line: 14
+2025-08-09 05:56:12,198 - ERROR - Failed to make a QA chain | Error: Vector store not present or empty | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/retriever.py | Line: 34
+2025-08-09 05:56:12,198 - INFO - 127.0.0.1 - - [09/Aug/2025 05:56:12] "POST / HTTP/1.1" 200 -
+2025-08-09 05:57:22,922 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-09 05:57:22,922 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-09 05:58:57,208 - INFO - Loading vector store for context
+2025-08-09 05:58:57,209 - INFO - Initializing our Huggingface embedding model
+2025-08-09 05:58:57,421 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-09 05:59:01,887 - INFO - Use pytorch device_name: mps
+2025-08-09 05:59:01,887 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-09 05:59:04,640 - INFO - Huggingface embedding model loaded successfully....
+2025-08-09 05:59:04,640 - INFO - Loading existing vectorstore...
+2025-08-09 05:59:04,643 - INFO - Loading faiss.
+2025-08-09 05:59:04,679 - INFO - Successfully loaded faiss.
+2025-08-09 05:59:04,683 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
+2025-08-09 05:59:04,710 - INFO - Loading LLM from HuggingFace
+2025-08-09 05:59:04,762 - INFO - LLM loaded sucesfully...
+2025-08-09 05:59:04,763 - INFO - Sucesfully created the QA chain
+2025-08-09 05:59:05,114 - INFO - 127.0.0.1 - - [09/Aug/2025 05:59:05] "POST / HTTP/1.1" 200 -
+2025-08-09 06:03:27,104 - INFO - Loading vector store for context
+2025-08-09 06:03:27,104 - INFO - Initializing our Huggingface embedding model
+2025-08-09 06:03:27,287 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-09 06:03:27,288 - INFO - Use pytorch device_name: mps
+2025-08-09 06:03:27,288 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-09 06:03:29,331 - INFO - Huggingface embedding model loaded successfully....
+2025-08-09 06:03:29,331 - INFO - Loading existing vectorstore...
+2025-08-09 06:03:29,489 - INFO - Loading LLM from HuggingFace
+2025-08-09 06:03:29,489 - INFO - LLM loaded sucesfully...
+2025-08-09 06:03:29,489 - INFO - Sucesfully created the QA chain
+2025-08-09 06:03:29,529 - INFO - 127.0.0.1 - - [09/Aug/2025 06:03:29] "POST / HTTP/1.1" 200 -
+2025-08-09 06:41:05,431 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-09 06:41:05,431 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-09 06:41:39,342 - INFO - 127.0.0.1 - - [09/Aug/2025 06:41:39] "GET / HTTP/1.1" 200 -
+2025-08-09 06:42:06,977 - INFO - Loading vector store for context
+2025-08-09 06:42:06,977 - INFO - Initializing our Huggingface embedding model
+2025-08-09 06:42:07,178 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-09 06:42:11,027 - INFO - Loading vector store for context
+2025-08-09 06:42:11,027 - INFO - Initializing our Huggingface embedding model
+2025-08-09 06:42:11,167 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-09 06:42:11,645 - INFO - Use pytorch device_name: mps
+2025-08-09 06:42:11,645 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-09 06:42:11,645 - INFO - Use pytorch device_name: mps
+2025-08-09 06:42:11,645 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-09 06:42:13,517 - ERROR - Error occurred while loading embedding model | Error: Cannot copy out of meta tensor; no data! Please use torch.nn.Module.to_empty() instead of torch.nn.Module.to() when moving module from meta to a different device. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 43
+2025-08-09 06:42:13,517 - ERROR - Failed to load vectorstore | Error: Error occurred while loading embedding model | Error: Cannot copy out of meta tensor; no data! Please use torch.nn.Module.to_empty() instead of torch.nn.Module.to() when moving module from meta to a different device. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 43 | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/vector_store.py | Line: 14
+2025-08-09 06:42:13,517 - ERROR - Failed to make a QA chain | Error: Vector store not present or empty | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/retriever.py | Line: 34
+2025-08-09 06:42:13,530 - INFO - 127.0.0.1 - - [09/Aug/2025 06:42:13] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-09 06:42:13,552 - ERROR - Error occurred while loading embedding model | Error: Cannot copy out of meta tensor; no data! Please use torch.nn.Module.to_empty() instead of torch.nn.Module.to() when moving module from meta to a different device. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 43
+2025-08-09 06:42:13,552 - ERROR - Failed to load vectorstore | Error: Error occurred while loading embedding model | Error: Cannot copy out of meta tensor; no data! Please use torch.nn.Module.to_empty() instead of torch.nn.Module.to() when moving module from meta to a different device. | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/embeddings.py | Line: 43 | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/vector_store.py | Line: 14
+2025-08-09 06:42:13,553 - ERROR - Failed to make a QA chain | Error: Vector store not present or empty | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/retriever.py | Line: 34
+2025-08-09 06:42:13,553 - INFO - 127.0.0.1 - - [09/Aug/2025 06:42:13] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-09 06:42:13,628 - INFO - 127.0.0.1 - - [09/Aug/2025 06:42:13] "GET / HTTP/1.1" 200 -
