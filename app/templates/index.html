@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Added for responsiveness -->
     <title>🔍 AI Medical Chatbot</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Added Google Font for better typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Google Font -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome for icons -->
     <style>
         body { 
             font-family: 'Roboto', Arial, sans-serif; 
@@ -14,58 +16,66 @@
         .chat-container { 
             max-width: 700px; 
             margin: 0 auto; 
-            background-color: #1a1a1a; /* Dark gray for container */
-            padding: 1.5rem; /* Increased padding for better spacing */
-            border-radius: 15px; /* Softer corners */
-            border: 2px solid red; /* Thicker border for emphasis */
-            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); /* Red glow shadow for attractiveness */
+            background-color: #1a1a1a; 
+            padding: 1.5rem; 
+            border-radius: 15px; 
+            border: 2px solid red; 
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); 
         }
         .message { 
             margin-bottom: 1rem; 
-            padding: 1rem; /* Slightly more padding */
-            border-radius: 15px; /* Rounded corners */
+            padding: 1rem; 
+            border-radius: 15px; 
             color: white; 
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
-            transition: transform 0.2s; /* Smooth hover effect */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); 
+            transition: transform 0.2s; 
         }
-        .message:hover {
-            transform: scale(1.02); /* Slight zoom on hover */
+        .message:hover { 
+            transform: scale(1.02); 
         }
         .user { 
-            background-color: red; /* Red for user */
+            background-color: red; 
             text-align: right; 
         }
         .assistant { 
-            background-color: #333333; /* Dark gray for assistant */
+            background-color: #333333; 
             text-align: left; 
+        }
+        .typing-indicator { 
+            display: none; /* Hidden by default; shown via JS */
+            background-color: #333333; 
+            padding: 0.5rem; 
+            border-radius: 15px; 
+            color: #ccc; 
+            font-style: italic; 
         }
         form { 
             margin-top: 2rem; 
         }
         textarea { 
             width: 100%; 
-            height: 4rem; /* Taller for better usability */
+            height: 4rem; 
             padding: 0.75rem; 
             font-size: 1rem; 
             background-color: #222222; 
             color: white; 
             border: 1px solid red; 
-            border-radius: 8px; /* Rounded input */
-            resize: vertical; /* Allow resizing */
+            border-radius: 8px; 
+            resize: vertical; 
         }
         button { 
-            padding: 0.75rem 1.5rem; /* Larger buttons */
+            padding: 0.75rem 1.5rem; 
             font-size: 1rem; 
             margin-top: 0.5rem; 
-            background: linear-gradient(to right, red, darkred); /* Gradient for attractiveness */
-            color: white; /* White text for contrast */
+            background: linear-gradient(to right, red, darkred); 
+            color: white; 
             border: none; 
             border-radius: 8px; 
             cursor: pointer; 
-            transition: background 0.3s; /* Smooth transition */
+            transition: background 0.3s; 
         }
         button:hover { 
-            background: linear-gradient(to right, darkred, black); /* Reverse gradient on hover */
+            background: linear-gradient(to right, darkred, black); 
         }
         .error { 
             color: red; 
@@ -82,19 +92,50 @@
         }
         h1 { 
             color: red; 
-            text-align: center; /* Centered heading */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Shadow for 3D effect */
+            text-align: center; 
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
         }
-        #chat-box {
-            max-height: 400px; /* Limit height */
-            overflow-y: auto; /* Scrollable if long */
-            padding-right: 0.5rem; /* Scrollbar space */
+        #chat-box { 
+            max-height: 400px; 
+            overflow-y: auto; 
+            padding-right: 0.5rem; 
+            margin-bottom: 1rem; /* Space for suggestions */
+        }
+        .suggestions { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 0.5rem; 
+            margin-top: 1rem; 
+        }
+        .suggestion-btn { 
+            background-color: #444444; 
+            color: white; 
+            border: 1px solid red; 
+            padding: 0.5rem 1rem; 
+            border-radius: 20px; /* Pill shape */
+            cursor: pointer; 
+            transition: background 0.3s; 
+        }
+        .suggestion-btn:hover { 
+            background-color: red; 
+        }
+        footer { 
+            text-align: center; 
+            margin-top: 2rem; 
+            font-size: 0.8rem; 
+            color: #ccc; 
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .chat-container { padding: 1rem; }
+            textarea { height: 3rem; }
+            button { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="chat-container">
-        <h1>🔍 AI Medical Chatbot New Change</h1>
+        <h1>🔍 AI Medical Chatbot <i class="fas fa-robot"></i></h1> <!-- Added icon -->
 
         {% if error %}
             <p class="error">{{ error }}</p>
@@ -107,17 +148,52 @@
                     {{ msg.content | safe | nl2br }}
                 </div>
             {% endfor %}
+            <div id="typing" class="typing-indicator">Assistant is typing...</div> <!-- Typing indicator -->
         </div>
 
-        <form method="post" action="{{ url_for('index') }}">
-            <textarea name="prompt" placeholder="Ask a medical question..." required></textarea>
+        <form method="post" action="{{ url_for('index') }}" id="chat-form">
+            <textarea name="prompt" placeholder="Ask a medical question..." required aria-label="Enter your question"></textarea>
             <br />
-            <button type="submit">Send</button>
+            <button type="submit">Send <i class="fas fa-paper-plane"></i></button> <!-- Added icon -->
         </form>
 
+        <!-- Message Suggestions -->
+        <div class="suggestions">
+            <button class="suggestion-btn" onclick="insertSuggestion('What is diabetes?')">What is diabetes?</button>
+            <button class="suggestion-btn" onclick="insertSuggestion('Symptoms of COVID-19')">COVID-19 Symptoms</button>
+            <button class="suggestion-btn" onclick="insertSuggestion('How to lower blood pressure?')">Lower Blood Pressure</button>
+        </div>
+
         <form method="get" action="{{ url_for('clear') }}">
-            <button type="submit" class="clear-btn">Clear Chat</button>
+            <button type="submit" class="clear-btn">Clear Chat <i class="fas fa-trash"></i></button> <!-- Added icon -->
         </form>
+
+        <footer>Disclaimer: This is not medical advice. Consult a doctor.</footer> <!-- Added disclaimer -->
     </div>
+
+    <script>
+        // Auto-scroll to bottom
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Insert suggestion into textarea
+        function insertSuggestion(text) {
+            document.querySelector('textarea[name="prompt"]').value = text;
+        }
+
+        // Simulate typing indicator (on form submit; for real-time, use SocketIO)
+        document.getElementById('chat-form').addEventListener('submit', function() {
+            document.getElementById('typing').style.display = 'block';
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to show typing
+        });
+
+        // For real-time SocketIO integration (uncomment and add backend):
+        // const socket = io(); // Requires flask-socketio
+        // socket.on('message', function(msg) {
+        //     // Append new message and hide typing
+        //     document.getElementById('typing').style.display = 'none';
+        //     // ... append msg to chat-box
+        // });
+    </script>
 </body>
 </html>
