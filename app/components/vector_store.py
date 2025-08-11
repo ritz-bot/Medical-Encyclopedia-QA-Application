@@ -1,4 +1,5 @@
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS  # Note: langchain_community, not langchain.vectorstores
+from langchain_huggingface import HuggingFaceEmbeddings
 import os
 from app.components.embeddings import get_embedding_model
 

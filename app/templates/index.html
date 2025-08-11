@@ -3,17 +3,93 @@
 <head>
     <meta charset="UTF-8" />
     <title>🔍 AI Medical Chatbot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Added Google Font for better typography -->
     <style>
-        body { font-family: Arial, sans-serif; margin: 2rem; }
-        .chat-container { max-width: 700px; margin: 0 auto; }
-        .message { margin-bottom: 1rem; padding: 0.75rem; border-radius: 10px; }
-        .user { background-color: #d1e7ff; text-align: right; }
-        .assistant { background-color: #f1f1f1; text-align: left; }
-        form { margin-top: 2rem; }
-        textarea { width: 100%; height: 3rem; padding: 0.5rem; font-size: 1rem; }
-        button { padding: 0.5rem 1rem; font-size: 1rem; margin-top: 0.5rem; }
-        .error { color: red; }
-        .clear-btn { margin-top: 1rem; }
+        body { 
+            font-family: 'Roboto', Arial, sans-serif; 
+            margin: 2rem; 
+            background-color: black; 
+            color: white; 
+        }
+        .chat-container { 
+            max-width: 700px; 
+            margin: 0 auto; 
+            background-color: #1a1a1a; /* Dark gray for container */
+            padding: 1.5rem; /* Increased padding for better spacing */
+            border-radius: 15px; /* Softer corners */
+            border: 2px solid red; /* Thicker border for emphasis */
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3); /* Red glow shadow for attractiveness */
+        }
+        .message { 
+            margin-bottom: 1rem; 
+            padding: 1rem; /* Slightly more padding */
+            border-radius: 15px; /* Rounded corners */
+            color: white; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+            transition: transform 0.2s; /* Smooth hover effect */
+        }
+        .message:hover {
+            transform: scale(1.02); /* Slight zoom on hover */
+        }
+        .user { 
+            background-color: red; /* Red for user */
+            text-align: right; 
+        }
+        .assistant { 
+            background-color: #333333; /* Dark gray for assistant */
+            text-align: left; 
+        }
+        form { 
+            margin-top: 2rem; 
+        }
+        textarea { 
+            width: 100%; 
+            height: 4rem; /* Taller for better usability */
+            padding: 0.75rem; 
+            font-size: 1rem; 
+            background-color: #222222; 
+            color: white; 
+            border: 1px solid red; 
+            border-radius: 8px; /* Rounded input */
+            resize: vertical; /* Allow resizing */
+        }
+        button { 
+            padding: 0.75rem 1.5rem; /* Larger buttons */
+            font-size: 1rem; 
+            margin-top: 0.5rem; 
+            background: linear-gradient(to right, red, darkred); /* Gradient for attractiveness */
+            color: white; /* White text for contrast */
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: background 0.3s; /* Smooth transition */
+        }
+        button:hover { 
+            background: linear-gradient(to right, darkred, black); /* Reverse gradient on hover */
+        }
+        .error { 
+            color: red; 
+        }
+        .clear-btn { 
+            margin-top: 1rem; 
+            background: linear-gradient(to right, black, #333333); 
+            color: red; 
+            border: 1px solid red; 
+            border-radius: 8px; 
+        }
+        .clear-btn:hover { 
+            background: linear-gradient(to right, #111111, black); 
+        }
+        h1 { 
+            color: red; 
+            text-align: center; /* Centered heading */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Shadow for 3D effect */
+        }
+        #chat-box {
+            max-height: 400px; /* Limit height */
+            overflow-y: auto; /* Scrollable if long */
+            padding-right: 0.5rem; /* Scrollbar space */
+        }
     </style>
 </head>
 <body>
