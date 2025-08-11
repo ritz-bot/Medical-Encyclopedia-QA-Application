@@ -52,6 +52,5 @@ def create_qa_chain():
     except Exception as e:
         error_message = CustomException("Failed to make a QA chain", e)
         logger.error(str(error_message))
-
-
+        raise error_message
 

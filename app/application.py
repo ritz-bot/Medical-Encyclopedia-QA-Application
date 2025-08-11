@@ -2,6 +2,11 @@ from flask import Flask,render_template,request,session,redirect,url_for
 from app.components.retriever import create_qa_chain
 from dotenv import load_dotenv
 import os
+import traceback
+
+
+
+
 
 load_dotenv()
 HF_TOKEN = os.environ.get("HF_TOKEN")
@@ -37,8 +42,8 @@ def index():
                 session["messages"] = messages
 
             except Exception as e:
-                error_msg = f"Error : {str(e)}"
-                return render_template("index.html" , messages = session["messages"] , error = error_msg)
+                print("Exception traceback:\n", traceback.format_exc())
+                error_msg = f"Error : {str(e) or repr(e)}"
             
         return redirect(url_for("index"))
     return render_template("index.html" , messages=session.get("messages" , []))

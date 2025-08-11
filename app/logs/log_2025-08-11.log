@@ -1,0 +1,47 @@
+2025-08-11 13:57:45,270 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-11 13:57:45,270 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-11 13:58:06,110 - INFO - 127.0.0.1 - - [11/Aug/2025 13:58:06] "GET / HTTP/1.1" 200 -
+2025-08-11 13:58:06,294 - INFO - 127.0.0.1 - - [11/Aug/2025 13:58:06] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-08-11 13:58:12,653 - INFO - Loading vector store for context
+2025-08-11 13:58:12,653 - INFO - Initializing our Huggingface embedding model
+2025-08-11 13:58:12,870 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-11 13:58:17,317 - INFO - Use pytorch device_name: mps
+2025-08-11 13:58:17,318 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-11 13:58:19,405 - INFO - Huggingface embedding model loaded successfully....
+2025-08-11 13:58:19,407 - WARNING - No vectore store found..
+2025-08-11 13:58:19,407 - ERROR - Failed to make a QA chain | Error: Vector store not present or empty | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/retriever.py | Line: 34
+2025-08-11 13:58:19,410 - INFO - 127.0.0.1 - - [11/Aug/2025 13:58:19] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-11 13:58:19,417 - INFO - 127.0.0.1 - - [11/Aug/2025 13:58:19] "GET / HTTP/1.1" 200 -
+2025-08-11 14:06:15,329 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-11 14:06:15,329 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-11 14:06:19,666 - INFO - 127.0.0.1 - - [11/Aug/2025 14:06:19] "GET / HTTP/1.1" 200 -
+2025-08-11 14:06:28,897 - INFO - Loading vector store for context
+2025-08-11 14:06:28,898 - INFO - Current working directory: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app
+2025-08-11 14:06:28,898 - INFO - Script location: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components
+2025-08-11 14:06:28,898 - INFO - Expected vector store path: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/vectorstore
+2025-08-11 14:06:28,898 - INFO - Vector store folder exists. Contents: ['db_faiss']
+2025-08-11 14:06:28,898 - INFO - Initializing our Huggingface embedding model
+2025-08-11 14:06:29,086 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-11 14:06:32,732 - INFO - Use pytorch device_name: mps
+2025-08-11 14:06:32,732 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-11 14:06:34,651 - INFO - Huggingface embedding model loaded successfully....
+2025-08-11 14:06:34,651 - WARNING - No vectore store found..
+2025-08-11 14:06:34,651 - ERROR - Failed to make a QA chain | Error: Vector store not present or empty | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/retriever.py | Line: 110
+2025-08-11 14:06:34,653 - INFO - 127.0.0.1 - - [11/Aug/2025 14:06:34] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-11 14:06:34,659 - INFO - 127.0.0.1 - - [11/Aug/2025 14:06:34] "GET / HTTP/1.1" 200 -
+2025-08-11 20:28:06,521 - INFO - MAking the vectorstore....
+2025-08-11 20:28:06,522 - ERROR - Failed to load PDF | Error: Data path doesn't exist | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/pdf_loader.py | Line: 15
+2025-08-11 20:28:06,522 - ERROR - Failed to generate chunks | Error: No documents were found | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/pdf_loader.py | Line: 39
+2025-08-11 20:28:06,522 - ERROR - Failed to craete new vectorstore  | Error: No chunks were found.. | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/vector_store.py | Line: 34
+2025-08-11 20:28:06,522 - INFO - Vectorstore created sucesfully....
+2025-08-11 20:28:35,044 - INFO - MAking the vectorstore....
+2025-08-11 20:28:35,044 - ERROR - Failed to load PDF | Error: Data path doesn't exist | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/pdf_loader.py | Line: 15
+2025-08-11 20:28:35,044 - ERROR - Failed to generate chunks | Error: No documents were found | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/pdf_loader.py | Line: 39
+2025-08-11 20:28:35,044 - ERROR - Failed to craete new vectorstore  | Error: No chunks were found.. | Error: None | File: Unknown File | Line: Unknown Line | File: /Users/ridhampuri/Desktop/projectsmlpipelines/llmops_aiops/section9/medicalchatbot/RAG MEDICAL CHATBOT/app/components/vector_store.py | Line: 34
+2025-08-11 20:28:35,044 - INFO - Vectorstore created sucesfully....
