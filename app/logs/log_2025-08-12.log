@@ -1,0 +1,19 @@
+2025-08-12 00:08:49,031 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-12 00:08:49,031 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-12 00:08:53,022 - INFO - 127.0.0.1 - - [12/Aug/2025 00:08:53] "GET / HTTP/1.1" 200 -
+2025-08-12 00:08:55,601 - INFO - Loading vector store for context
+2025-08-12 00:08:55,601 - INFO - Initializing our Huggingface embedding model
+2025-08-12 00:08:55,791 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-12 00:08:59,708 - INFO - Use pytorch device_name: mps
+2025-08-12 00:08:59,709 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-12 00:09:02,558 - INFO - Huggingface embedding model loaded successfully....
+2025-08-12 00:09:02,558 - INFO - Loading existing vectorstore...
+2025-08-12 00:09:02,561 - INFO - Loading faiss.
+2025-08-12 00:09:02,607 - INFO - Successfully loaded faiss.
+2025-08-12 00:09:02,612 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
+2025-08-12 00:09:02,703 - INFO - Sucesfully created the QA chain
+2025-08-12 00:09:03,510 - INFO - 127.0.0.1 - - [12/Aug/2025 00:09:03] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-12 00:09:03,522 - INFO - 127.0.0.1 - - [12/Aug/2025 00:09:03] "GET / HTTP/1.1" 200 -
