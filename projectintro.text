@@ -1152,3 +1152,102 @@ This summary captures every key step, command, explanation, and tip from the vid
 
 This summary is exhaustive for revision—copy to notes or a Markdown file. Commands are verbatim; run in sequence. If errors (e.g., Git not installed), revisit Step 1. For Docker, test with `docker build -t rag-medical-chatbot .` after.
 
+9.116
+
+### Detailed Summary of Video: Setting Up Jenkins with Docker for CI/CD in "Rag Medical Chatbot" Project
+
+This summary captures every key step, command, explanation, warning, and tip from the video transcript without skipping details, organized chronologically and thematically for easy revision. It's structured like notes, with exact commands, reasons, and optional/prerequisite info preserved. The focus is on Jenkins setup using Docker-in-Docker (DIND) for CI/CD deployment.
+
+#### Introduction and Overview
+- The video starts the CI/CD deployment phase for the project from this point onward.
+- Main tool: Jenkins (CI/CD tool) setup using Docker, specifically Docker-in-Docker (DIND) in detached mode.
+- Reference: Explained in the project's introduction video (check that for DIND basics).
+- Move directly to practical steps.
+
+#### Prerequisites (Checked from Documentation in GitHub Link)
+- Docker Desktop must be installed and running in the background (verify: See Docker icon running; presenter confirms theirs is active).
+- Code versioning must be done using GitHub (completed in previous video).
+- Dockerfile for the main project must be created (done previously).
+- Dockerfile for Jenkins must be created (covered in this video).
+- All four prerequisites are confirmed as done by the presenter.
+
+#### Step 1: Creating Custom Jenkins Folder and Dockerfile
+- Create a new folder in the project's root directory: Name it "custom Jenkins".
+- Inside "custom Jenkins", create a file named `Dockerfile` (no extension).
+- Copy the Dockerfile content from the provided GitHub link (in video's resource section; inside "custom Jenkins" folder on GitHub).
+- Purpose of Dockerfile: Loads the official Jenkins image, builds a Jenkins container for local use (allows running Jenkins on your PC via Docker).
+- Code Explanation (with comments from GitHub):
+  - Uses official Jenkins image.
+  - Switches to root user (for full permissions to install packages inside container; root has special access vs. limited "jenkins" user).
+  - The presenter closes the file after pasting.
+
+#### Step 2: Building the Jenkins Image
+- Open VS Code terminal (CMD mode) and navigate to "custom Jenkins" folder:
+  - Command: `cd custom_jenkins` (or full path; copy from GitHub docs).
+- Build the image using the Dockerfile:
+  - Command (from GitHub docs, second command): `docker build -t jenkins-build .`
+  - It starts building; takes time based on internet (Jenkins image ~300-400 MB; downloads layers like 62MB, 6MB, 4MB, 16MB, 48MB).
+  - Wait patiently; depends on connection speed.
+
+#### Step 3: Running the Jenkins Container
+- After build completes, run the container (copy full command from GitHub docs at once):
+  - Example Command: `docker run -d -p 8080:8080 -p 50000:50000 --name jenkins -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -u root jenkins-build`
+  - Clear terminal first if needed.
+  - Ignore any warning messages.
+  - Success Indicator: Outputs a long alphanumeric container ID (means container created successfully).
+- Cross-Verify: Open Docker Desktop—see "jenkins" container running (green dot), port 8080, container ID matches.
+
+#### Step 4: Accessing Jenkins and Initial Setup
+- In browser: Go to `localhost:8080` (or `127.0.0.1:8080`).
+- It asks for a password to unlock Jenkins.
+- Get Password:
+  - Primary Command: `docker logs jenkins` (fetches logs; password is in output; works only once reliably).
+  - Alternative (if logs don't show again): `docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword` (does the same; optional, use either).
+- Copy password, paste in browser, press Continue.
+- Install plugins: Choose "Install suggested plugins" (takes time based on internet).
+- Create Admin User (optional but recommended to avoid long password):
+  - Username: e.g., "admin" (remember it).
+  - Password: Set and confirm (remember it).
+  - Full Name: Your name.
+  - Email: Your email.
+  - Save and Continue > Save and Finish > Start using Jenkins.
+- Dashboard ready, but setup not complete yet.
+
+#### Step 5: Installing Python/Pip Inside Jenkins Container (for Future Packages)
+- To install packages (e.g., pip) inside the Jenkins container (since it's DIND):
+  - Enter Container: `docker exec -it jenkins /bin/bash` (goes inside as root).
+- Run Commands One by One (from GitHub docs):
+  - `apt update` (updates all packages).
+  - `apt install -y python3 python3-pip` (installs Python 3 and pip; takes time based on connection).
+- Verify Python:
+  - `python3 --version` (shows e.g., Python 3.11.2).
+- Issue: `python --version` shows "command not found" (Python3 installed, but alias "python" missing).
+- Fix Alias: `update-alternatives --install /usr/bin/python python /usr/bin/python3 1` (makes "python" point to "python3").
+- Re-Verify: `python --version` (now shows Python 3.11.2; "python" and "python3" are equivalent for running scripts like `python app.py`).
+- General Tip: For future package installs in container, follow these steps (enter container, apt update/install).
+- Exit Container: `exit` (back to local terminal).
+
+#### Step 6: Restarting Jenkins Container After Changes
+- Important: Always restart after changes in container (e.g., new installs).
+- Command: `docker restart jenkins` (jenkins is the container name; outputs container ID on success).
+- Refresh Browser: Jenkins logs out (normal); sign in with admin credentials.
+- Tick "Keep me signed in" to avoid repeated logins on restarts.
+- Dashboard ready; Jenkins fully set up for use.
+
+#### Video Conclusion
+- Jenkins setup complete; ready for free use.
+- Next Video: GitHub integration with Jenkins (not covered here).
+
+This summary is exhaustive—commands verbatim, warnings (e.g., patience for downloads, optional user creation), and tips (e.g., root vs. user permissions) included. For revision, copy to a Markdown file. If errors during setup (e.g., Docker not running), check prerequisites. Test by accessing localhost:8080 after run.
+
+
+9.117
+
+9.118
+
+
+9.119
+
+
+9.120
+
