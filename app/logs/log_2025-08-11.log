@@ -416,3 +416,60 @@
 2025-08-11 23:30:25,335 - INFO - 127.0.0.1 - - [11/Aug/2025 23:30:25] "GET / HTTP/1.1" 200 -
 2025-08-11 23:30:29,074 - INFO - 127.0.0.1 - - [11/Aug/2025 23:30:29] "GET / HTTP/1.1" 200 -
 2025-08-11 23:30:30,461 - INFO - 127.0.0.1 - - [11/Aug/2025 23:30:30] "GET / HTTP/1.1" 200 -
+2025-08-11 23:41:29,112 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.0.103:5000
+2025-08-11 23:41:29,112 - INFO - [33mPress CTRL+C to quit[0m
+2025-08-11 23:41:32,058 - INFO - Loading vector store for context
+2025-08-11 23:41:32,059 - INFO - Initializing our Huggingface embedding model
+2025-08-11 23:41:32,260 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-11 23:41:36,208 - INFO - Use pytorch device_name: mps
+2025-08-11 23:41:36,208 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-11 23:41:36,743 - INFO - Loading vector store for context
+2025-08-11 23:41:36,744 - INFO - Initializing our Huggingface embedding model
+2025-08-11 23:41:36,888 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-11 23:41:36,889 - INFO - Use pytorch device_name: mps
+2025-08-11 23:41:36,889 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-11 23:41:38,373 - INFO - Huggingface embedding model loaded successfully....
+2025-08-11 23:41:38,373 - INFO - Loading existing vectorstore...
+2025-08-11 23:41:38,376 - INFO - Loading faiss.
+2025-08-11 23:41:38,412 - INFO - Successfully loaded faiss.
+2025-08-11 23:41:38,416 - INFO - Failed to load GPU Faiss: name 'GpuIndexIVFFlat' is not defined. Will not load constructor refs for GPU indexes. This is only an error if you're trying to use GPU Faiss.
+2025-08-11 23:41:38,500 - INFO - Sucesfully created the QA chain
+2025-08-11 23:41:39,246 - INFO - Huggingface embedding model loaded successfully....
+2025-08-11 23:41:39,246 - INFO - Loading existing vectorstore...
+2025-08-11 23:41:39,418 - INFO - Sucesfully created the QA chain
+2025-08-11 23:41:40,012 - INFO - 127.0.0.1 - - [11/Aug/2025 23:41:40] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-11 23:41:40,013 - INFO - 127.0.0.1 - - [11/Aug/2025 23:41:40] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-11 23:41:40,025 - INFO - 127.0.0.1 - - [11/Aug/2025 23:41:40] "GET / HTTP/1.1" 200 -
+2025-08-11 23:42:01,317 - INFO - Loading vector store for context
+2025-08-11 23:42:01,318 - INFO - Initializing our Huggingface embedding model
+2025-08-11 23:42:01,443 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-11 23:42:01,444 - INFO - Use pytorch device_name: mps
+2025-08-11 23:42:01,444 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-11 23:42:03,769 - INFO - Huggingface embedding model loaded successfully....
+2025-08-11 23:42:03,769 - INFO - Loading existing vectorstore...
+2025-08-11 23:42:03,809 - INFO - Sucesfully created the QA chain
+2025-08-11 23:42:04,208 - INFO - 127.0.0.1 - - [11/Aug/2025 23:42:04] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-11 23:42:04,216 - INFO - 127.0.0.1 - - [11/Aug/2025 23:42:04] "GET / HTTP/1.1" 200 -
+2025-08-11 23:42:10,483 - INFO - Loading vector store for context
+2025-08-11 23:42:10,483 - INFO - Initializing our Huggingface embedding model
+2025-08-11 23:42:10,614 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-11 23:42:10,615 - INFO - Use pytorch device_name: mps
+2025-08-11 23:42:10,615 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-11 23:42:12,473 - INFO - Huggingface embedding model loaded successfully....
+2025-08-11 23:42:12,473 - INFO - Loading existing vectorstore...
+2025-08-11 23:42:12,495 - INFO - Sucesfully created the QA chain
+2025-08-11 23:42:12,922 - INFO - 127.0.0.1 - - [11/Aug/2025 23:42:12] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-11 23:42:12,927 - INFO - 127.0.0.1 - - [11/Aug/2025 23:42:12] "GET / HTTP/1.1" 200 -
+2025-08-11 23:42:26,289 - INFO - Loading vector store for context
+2025-08-11 23:42:26,289 - INFO - Initializing our Huggingface embedding model
+2025-08-11 23:42:26,413 - WARNING - Note: Environment variable`HF_TOKEN` is set and is the current active token independently from the token you've just configured.
+2025-08-11 23:42:26,414 - INFO - Use pytorch device_name: mps
+2025-08-11 23:42:26,414 - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-MiniLM-L6-v2
+2025-08-11 23:42:28,460 - INFO - Huggingface embedding model loaded successfully....
+2025-08-11 23:42:28,460 - INFO - Loading existing vectorstore...
+2025-08-11 23:42:28,488 - INFO - Sucesfully created the QA chain
+2025-08-11 23:42:28,897 - INFO - 127.0.0.1 - - [11/Aug/2025 23:42:28] "[32mPOST / HTTP/1.1[0m" 302 -
+2025-08-11 23:42:28,905 - INFO - 127.0.0.1 - - [11/Aug/2025 23:42:28] "GET / HTTP/1.1" 200 -
