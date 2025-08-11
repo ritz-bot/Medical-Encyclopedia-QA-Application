@@ -2,7 +2,7 @@ venv/
 __pycache__/
 *.pyc
 RAG_Medcal_Chatbot.egg-info/
-.env
+.env/
 logs/*
 data/*
 vectorstore/*
