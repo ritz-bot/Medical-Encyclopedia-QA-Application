@@ -14,7 +14,6 @@ pipeline {
                 script {
                     echo 'Cloning GitHub repo to Jenkins...'
                     checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token-new', url: 'https://github.com/ritz-bot/Medical-Encyclopedia-QA-Application.git']])
-                
                 }
             }
         }
