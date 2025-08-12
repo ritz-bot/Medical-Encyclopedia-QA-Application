@@ -49,7 +49,7 @@ pipeline {
                         def ecrUrl = "${accountId}.dkr.ecr.${env.AWS_REGION}.amazonaws.com/${env.ECR_REPO}"
                         def imageFullTag = "${ecrUrl}:${IMAGE_TAG}"
 
-                        v echo "Triggering deployment to AWS App Runner..."
+                        echo "Triggering deployment to AWS App Runner..."
 
                         sh """
                         SERVICE_ARN=\$(aws apprunner list-services --query "ServiceSummaryList[?ServiceName=='${SERVICE_NAME}'].ServiceArn" --output text --region ${AWS_REGION})
