@@ -1246,6 +1246,117 @@ This summary is exhaustive—commands verbatim, warnings (e.g., patience for dow
 9.118
 
 
+### Video Transcript Summary: Build, Scan, and Push Stage in DevSecOps Project
+
+The video begins with a greeting to viewers, assuming they have completed GitHub integration from previous steps. The focus is on implementing the "build, scan, and push" stage in the Jenkins pipeline. Viewers are instructed to open the provided GitHub repository's full documentation and navigate to the "Build" section.
+
+#### Overview of the Stage
+- **Build**: Create a Docker image using Docker.
+- **Scan**: Use Trivy to scan the Docker image for vulnerabilities and security issues.
+- **Push**: Upload the image to AWS Elastic Container Registry (ECR).
+- Prerequisite knowledge: Trivy and ECR are covered in the project's introduction video; viewers should refer there if needed.
+
+#### Installing Trivy and AWS CLI Inside the Jenkins Container
+The main goal is to install Trivy and AWS CLI inside the Jenkins Docker container.
+
+- **Installing Trivy**:
+  - Open the terminal for the custom Jenkins container.
+  - Run commands one by one (copied from documentation):
+    - `apt update` (update packages).
+    - `apt install -y apt-transport-https ca-certificates curl software-properties-common`.
+    - `curl -fsSL https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor -o /usr/share/keyrings/trivy-archive-keyring.gpg`.
+    - `echo "deb [signed-by=/usr/share/keyrings/trivy-archive-keyring.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/trivy.list`.
+    - `apt update`.
+    - `apt install trivy`.
+  - Verify installation: Run `trivy --version`, which shows version 0.62.1 if successful.
+
+- **Installing AWS CLI** (from step 5 in documentation):
+  - No need to repeat `apt update` if already done.
+  - Run: `apt install unzip curl`.
+  - `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`.
+  - `unzip awscliv2.zip`.
+  - `./aws/install`.
+  - These commands are from AWS documentation (search for "install AWS CLI on Linux").
+  - Verify: Run `aws --version`, which displays the AWS CLI version.
+
+After installations:
+- Exit the terminal.
+- Restart the Jenkins container: `docker restart jenkins-dind`.
+- Refresh the Jenkins dashboard; it will reload in 10-15 seconds.
+
+#### Installing AWS Plugins in Jenkins
+- Navigate to Jenkins dashboard > Manage Jenkins > Plugins > Available plugins.
+- Search for "AWS".
+- Install:
+  - AWS Credentials.
+  - AWS SDK::All.
+- Wait for installation (depends on internet speed).
+- Restart Jenkins container again: `docker restart jenkins-dind`.
+- Refresh Jenkins dashboard.
+
+#### Creating an IAM User in AWS
+- Log into AWS console (assume account is already created).
+- Search for IAM > Users > Add user.
+- Name the user (e.g., "tag-medical").
+- Attach policy: "AmazonEC2ContainerRegistryFullAccess" (search and select).
+- Create the user.
+- Open the user > Create access key > Select "Command Line Interface" > Confirm > Create.
+- Note down Access Key ID and Secret Access Key.
+
+#### Adding AWS Credentials to Jenkins
+- Jenkins dashboard > Manage Jenkins > Credentials > System > Global credentials > Add credentials.
+- Kind: AWS Credentials.
+- ID: "aws-token" (or any name; add to description too).
+- Paste Access Key ID and Secret Access Key.
+- Create.
+
+#### Creating an ECR Repository
+- In AWS console, search for ECR.
+- Create repository.
+- Name: e.g., "my-repo".
+- Keep default configurations (mutable tags, etc.).
+- Create.
+- Note the repository URI (e.g., for pushing images).
+
+#### Updating the Jenkinsfile in VS Code
+- Uncomment the `environment` block.
+- Uncomment the "Build, Scan and Push" stage (not other stages).
+- Set environment variables:
+  - `AWS_REGION`: Match your AWS region (e.g., "us-east-1"; check in AWS console).
+  - `ECR_REPO_NAME`: Match repository name (e.g., "my-repo").
+  - `IMAGE_TAG`: Keep as "latest".
+  - `SERVICE_NAME`: For deployment stage; leave as is.
+- In the pipeline code, update `credentialId` to match Jenkins credential ID (e.g., "aws-token").
+- No other changes needed.
+
+#### Committing and Pushing Changes
+- In VS Code terminal: `git add .`, `git commit -m "your message"`, `git push`.
+- Go to Jenkins dashboard > Open pipeline > Build now.
+
+#### Running the Pipeline and Handling Errors
+- Monitor console output.
+- It runs checkout stage, logs into AWS using credentials.
+- Common error: Docker daemon issue (when using Docker-in-Docker bind mount).
+  - Solution (from documentation): Open Jenkins container terminal and run:
+    - `dockerd &` (start daemon).
+    - `docker ps` (verify).
+  - Exit and restart: `docker restart jenkins-dind`.
+- Rebuild the pipeline.
+- Process:
+  - Logs into AWS ECR.
+  - Builds Docker image (depends on internet; takes 10-15+ minutes).
+  - Scans with Trivy (generates report).
+  - Pushes to ECR.
+- Success: Green tick in console.
+- Check Trivy report: Jenkins workspace > trivy-report.html (shows vulnerabilities, e.g., high severity ones; downloadable).
+- Verify in AWS ECR: Open repository > See latest image (e.g., ~3.4 GB).
+
+#### Next Steps
+- The video concludes successfully after 15-20 minutes.
+- Next video: Deploy the image from ECR.
+
+The presenter notes frustrations with copy-paste issues and emphasizes patience due to internet-dependent steps. All commands and steps are detailed in the GitHub documentation.
+
 9.119
 
 
