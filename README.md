@@ -21,7 +21,7 @@ This project solves the problem by:
 
 ### Live Demo
 👉 [Watch the Demo](https://github.com/user-attachments/assets/3bce3be5-18a4-4afc-bab7-c8da2ad7bee0)  
-*(Click the link to watch on YouTube)*
+*(Click the link to watch)*
 
 ---
 
