@@ -20,8 +20,8 @@ This project solves the problem by:
 ## 🎥 Demo & Screenshots
 
 ### Live Demo
-[![Watch the demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://github.com/user-attachments/assets/3bce3be5-18a4-4afc-bab7-c8da2ad7bee0)  
-*(Click the thumbnail to watch on YouTube)*
+👉 [Watch the Demo](https://github.com/user-attachments/assets/3bce3be5-18a4-4afc-bab7-c8da2ad7bee0)  
+*(Click the link to watch on YouTube)*
 
 ---
 
@@ -32,6 +32,7 @@ This project solves the problem by:
 | ![Home Page](https://github.com/user-attachments/assets/facd4101-28d8-4e3a-b69e-3c7439fb46e0) | ![Query](https://github.com/user-attachments/assets/a27d54a8-31c4-4b58-8aff-907158e8a4da) | ![Results](https://github.com/user-attachments/assets/fdc8bf6c-cf19-43d5-9c43-e2b63ab78726) |
 
 ---
+
 
 ---
 
