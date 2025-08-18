@@ -27,7 +27,10 @@ This project solves the problem by:
 ### Screenshots
 | Home Page | Query Example | Results Page |
 |-----------|--------------|--------------|
-| ![Home Page](assets/home.png) | ![Query](assets/query.png) | ![Results](assets/results.png) |
+| ![Home Page](![Xnip2025-08-18_03-16-54](https://github.com/user-attachments/assets/facd4101-28d8-4e3a-b69e-3c7439fb46e0)
+) | ![Query](![Xnip2025-08-18_03-21-47](https://github.com/user-attachments/assets/a27d54a8-31c4-4b58-8aff-907158e8a4da)
+  ) | ![Results](![Xnip2025-08-18_03-18-27](https://github.com/user-attachments/assets/fdc8bf6c-cf19-43d5-9c43-e2b63ab78726)
+) |
 
 ---
 
