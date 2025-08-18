@@ -21,7 +21,11 @@ This project solves the problem by:
 > Replace the placeholders below with your own demo video link and images.
 
 ### Live Demo
-[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID)  
+[![Watch the video](
+
+https://github.com/user-attachments/assets/3bce3be5-18a4-4afc-bab7-c8da2ad7bee0
+
+)  
 *(Click the thumbnail to watch on YouTube)*
 
 ### Screenshots
